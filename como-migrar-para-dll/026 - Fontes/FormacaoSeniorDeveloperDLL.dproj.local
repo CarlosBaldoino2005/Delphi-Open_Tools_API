@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/06/12 03:49:01.560,D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\FormacaoSeniorDeveloperDLL.dproj=D:\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2021/06/12 03:50:10.628,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\DockForm\FSD.DockForm.Sample.pas</Transaction>
+    <Transaction>2021/06/12 03:50:15.879,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\HelloWorld\FSD.HelloWorld.Wizard.pas</Transaction>
+    <Transaction>2021/06/12 03:50:21.445,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\HistoryProjects\FSD.HistoryProjects.Binding.pas</Transaction>
+    <Transaction>2021/06/12 03:50:21.453,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\HistoryProjects\FSD.HistoryProjects.ContextMenu.pas</Transaction>
+    <Transaction>2021/06/12 03:50:21.464,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\HistoryProjects\FSD.HistoryProjects.Forms.pas</Transaction>
+    <Transaction>2021/06/12 03:50:21.471,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\HistoryProjects\FSD.HistoryProjects.Notifier.pas</Transaction>
+    <Transaction>2021/06/12 03:50:28.557,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\MainMenu\FSD.MainMenu.Wizard.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.860,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.Creator.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.869,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewFormCadastro.Creator.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.876,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewFormCadastro.SourceFile.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.885,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewFormMain.Creator.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.902,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewFormMain.SourceFile.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.913,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.Component.ConnectionFiredac.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.921,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.Component.ConnectionInterfaces.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.930,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.ComponentFactory.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.940,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.ComponentInterfaces.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.949,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.Controller.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.958,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.DAOBase.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.968,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.DAOFactory.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.978,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.DAOInterfaces.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.988,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.Model.pas</Transaction>
+    <Transaction>2021/06/12 03:50:36.998,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.ModelInterfaces.pas</Transaction>
+    <Transaction>2021/06/12 03:50:37.010,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.NewUnit.Behaviors.pas</Transaction>
+    <Transaction>2021/06/12 03:50:37.020,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.Forms.pas</Transaction>
+    <Transaction>2021/06/12 03:50:37.030,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.SourceFile.pas</Transaction>
+    <Transaction>2021/06/12 03:50:37.042,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewProject\FSD.NewProject.Wizard.pas</Transaction>
+    <Transaction>2021/06/12 03:50:56.947,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\NewUnit\FSD.NewUnit.ToolsAPI.Creator.pas</Transaction>
+    <Transaction>2021/06/12 03:51:02.865,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Splash\FSD.Splash.pas</Transaction>
+    <Transaction>2021/06/12 03:51:06.213,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\FSD.Register.pas</Transaction>
+    <Transaction>2021/06/12 03:51:54.745,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Resources\delphi_ico.ico</Transaction>
+    <Transaction>2021/06/12 03:51:54.762,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Resources\mysql.bmp</Transaction>
+    <Transaction>2021/06/12 03:51:54.779,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Resources\postgres.bmp</Transaction>
+    <Transaction>2021/06/12 03:51:54.796,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Resources\sqldeveloper.bmp</Transaction>
+    <Transaction>2021/06/12 03:51:54.813,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Resources\sqlite.bmp</Transaction>
+  </Transactions>
+</BorlandProject>

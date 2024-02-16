@@ -1,0 +1,73 @@
+unit FSD.NewProject.NewFormMain.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewProjectNewFormMainCreator = class(TNotifierObject, IOTACreator,
+                                                               IOTAModuleCreator)
+
+  private
+    FNamespace: string;
+
+  protected
+    function GetCreatorType: string;
+    { Return False if this is a new module }
+    function GetExisting: Boolean;
+    { Return the File system IDString that this module uses for reading/writing }
+    function GetFileSystem: string;
+    { Return the Owning module, if one exists (for a project module, this would
+      be a project; for a project this is a project group) }
+    function GetOwner: IOTAModule;
+    { Return true, if this item is to be marked as un-named.  This will force the
+      save as dialog to appear the first time the user saves. }
+    function GetUnnamed: Boolean;
+
+  public
+    constructor create(Path, Namespace: String);
+    class function New(Path, Namespace: String): IOTACreator;
+end;
+
+implementation
+
+{ TFSDNewProjectNewFormMainCreator }
+
+constructor TFSDNewProjectNewFormMainCreator.create(Path, Namespace: String);
+begin
+  FNamespace := Namespace;
+end;
+
+function TFSDNewProjectNewFormMainCreator.GetCreatorType: string;
+begin
+  result := sForm;
+end;
+
+function TFSDNewProjectNewFormMainCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectNewFormMainCreator.GetFileSystem: string;
+begin
+  result := '';
+end;
+
+function TFSDNewProjectNewFormMainCreator.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDNewProjectNewFormMainCreator.GetUnnamed: Boolean;
+begin
+  result := True;
+end;
+
+class function TFSDNewProjectNewFormMainCreator.New(Path, Namespace: String): IOTACreator;
+begin
+  result := Self.create(Path, Namespace);
+end;
+
+end.

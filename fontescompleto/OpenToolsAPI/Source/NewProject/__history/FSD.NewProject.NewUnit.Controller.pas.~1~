@@ -1,0 +1,36 @@
+unit FSD.NewProject.NewUnit.Controller;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitController(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitController(ProjectPath, Namespace: String);
+var
+  unitName: String;
+  unitPath: string;
+  unitFileName: string;
+begin
+  unitPath  := ProjectPath + '\Source\Controller\';
+  unitName  := Namespace + '.Controller.Interfaces';
+  unitFileName := unitPath + unitName + '.pas';
+
+  ForceDirectories(unitPath);
+
+  with TStringList.Create do
+  try
+
+  finally
+    Free;
+  end;
+end;
+
+implementation
+
+end.

@@ -1,0 +1,155 @@
+unit FSD.Modelo.Entity.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  FSD.Modelo.Classes,
+  FSD.Modelo.Entity.SourceFile;
+
+type TFSDEntityCreator = class(TNotifierObject, IOTACreator, IOTAModuleCreator)
+
+  private
+    FNamespace: string;
+    FTabela: TFSDModeloTabela;
+    FFileName: string;
+
+  protected
+    // IOTACreator
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileSystem: string;
+    function GetOwner: IOTAModule;
+    function GetUnnamed: Boolean;
+
+    // IOTAModuleCreator
+    function GetAncestorName: string;
+    function GetImplFileName: string;
+    function GetIntfFileName: string;
+    function GetFormName: string;
+    function GetMainForm: Boolean;
+    function GetShowForm: Boolean;
+    function GetShowSource: Boolean;
+    function NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+    function NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+    function NewImplSource(const ModuleIdent: string; const FormIdent: string; const AncestorIdent: string): IOTAFile;
+    procedure FormCreated(const FormEditor: IOTAFormEditor);
+
+  public
+    constructor create(Namespace: String; Tabela: TFSDModeloTabela);
+    class function New(Namespace: String; Tabela: TFSDModeloTabela): IOTACreator;
+    destructor Destroy; override;
+end;
+
+implementation
+
+{ TFSDEntityCreator }
+
+constructor TFSDEntityCreator.create(Namespace: String; Tabela: TFSDModeloTabela);
+var
+  module: IOTAModule;
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+  FFileName := ExtractFilePath(GetActiveProject.FileName) +
+                 Format('\Source\Model\Entities\%s.Entities.%s.pas', [FNamespace, FTabela.nome]);
+
+  ForceDirectories(ExtractFilePath(FFileName));
+
+//  module := (BorlandIDEServices as IOTAModuleServices).CreateModule(Self);
+//  module.FileName := FFileName;
+//  module.Save(False, True);
+end;
+
+destructor TFSDEntityCreator.Destroy;
+begin
+  inherited;
+end;
+
+procedure TFSDEntityCreator.FormCreated(const FormEditor: IOTAFormEditor);
+begin
+end;
+
+function TFSDEntityCreator.GetAncestorName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDEntityCreator.GetCreatorType: string;
+begin
+  result := sUnit;
+end;
+
+function TFSDEntityCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDEntityCreator.GetFileSystem: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDEntityCreator.GetFormName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDEntityCreator.GetImplFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDEntityCreator.GetIntfFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDEntityCreator.GetMainForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDEntityCreator.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDEntityCreator.GetShowForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDEntityCreator.GetShowSource: Boolean;
+begin
+  result := True;
+end;
+
+function TFSDEntityCreator.GetUnnamed: Boolean;
+begin
+  result := False;
+end;
+
+class function TFSDEntityCreator.New(Namespace: String; Tabela: TFSDModeloTabela): IOTACreator;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+function TFSDEntityCreator.NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := nil;
+end;
+
+function TFSDEntityCreator.NewImplSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := TFSDModeloEntitySourceFile.New(FNamespace, FTabela);
+end;
+
+function TFSDEntityCreator.NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := nil;
+end;
+
+end.

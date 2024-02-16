@@ -1,0 +1,27 @@
+unit FSD.NewProject.NewUnit.Component.ConnectionInterfaces;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitComponentConnectionInterfaces(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitComponentConnectionInterfaces(ProjectPath, Namespace: String);
+var
+  unitName: String;
+  unitPath: string;
+  unitFileName: string;
+begin
+  unitPath := ProjectPath + '\src\Model\Components\Connection\';
+  unitName := Namespace + '.Components.Connection.Interfaces';
+  unitFileName := unitPath + unitName + '.pas';
+
+  ForceDirectories(unitPath);
+end;
+
+end.

@@ -1,0 +1,24 @@
+unit FSD.DockForm.Sample;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TFSDDockFormSample = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSDDockFormSample: TFSDDockFormSample;
+
+implementation
+
+{$R *.dfm}
+
+end.

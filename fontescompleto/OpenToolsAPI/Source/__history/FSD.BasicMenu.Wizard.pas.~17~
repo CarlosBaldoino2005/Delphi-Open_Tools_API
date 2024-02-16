@@ -1,0 +1,69 @@
+unit FSD.BasicMenu.Wizard;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.ShellAPI,
+  Vcl.Dialogs;
+
+type TFSDBasicMenuWizard = class(TNotifierObject, IOTAWizard, IOTAMenuWizard)
+
+  protected
+    procedure OnClickMenu(Sender: TObject);
+
+    function GetIDString: string;
+    function GetName: string;
+    function GetState: TWizardState;
+
+    procedure Execute;
+
+    function GetMenuText: string;
+
+  public
+    class function New: IOTAWizard;
+end;
+
+implementation
+
+{ TFSDBasicMenuWizard }
+
+procedure TFSDBasicMenuWizard.Execute;
+begin
+  ShellExecute(HInstance, 'open', 'http://www.youtube.com', nil, nil, SW_SHOWNORMAL);
+end;
+
+function TFSDBasicMenuWizard.GetIDString: string;
+begin
+  result := Self.ClassName;
+end;
+
+function TFSDBasicMenuWizard.GetMenuText: string;
+begin
+  result := 'Formação Senior Developer';
+end;
+
+function TFSDBasicMenuWizard.GetName: string;
+begin
+  result := 'Basic Menu';
+end;
+
+function TFSDBasicMenuWizard.GetState: TWizardState;
+begin
+  Result := [wsEnabled];
+end;
+
+class function TFSDBasicMenuWizard.New: IOTAWizard;
+begin
+  result := Self.Create;
+end;
+
+procedure TFSDBasicMenuWizard.OnClickMenu(Sender: TObject);
+begin
+
+end;
+
+end.

@@ -1,0 +1,79 @@
+unit FSD.NewProject.NewForm.Main.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type
+  TFSDNewProjectNewFormMainSourcePAS = class(TNotifierObject, IOTAFile)
+  protected
+    FNamespace: string;
+
+    function GetSource: string;
+    function GetAge: TDateTime;
+  public
+    class function New(Namespace: String): IOTAFile;
+    constructor create(Namespace: String);
+  end;
+
+  TFSDNewProjectNewFormMainSourceDFM = class(TNotifierObject, IOTAFile)
+  protected
+    FNamespace: string;
+
+    function GetSource: string;
+    function GetAge: TDateTime;
+  public
+    class function New(Namespace: String): IOTAFile;
+    constructor create(Namespace: String);
+  end;
+
+implementation
+
+{ TFSDNewProjectNewFormMainSourcePAS }
+
+constructor TFSDNewProjectNewFormMainSourcePAS.create(Namespace: String);
+begin
+  FNamespace := Namespace;
+end;
+
+function TFSDNewProjectNewFormMainSourcePAS.GetAge: TDateTime;
+begin
+  result := -1;
+end;
+
+function TFSDNewProjectNewFormMainSourcePAS.GetSource: string;
+begin
+
+end;
+
+class function TFSDNewProjectNewFormMainSourcePAS.New(Namespace: String): IOTAFile;
+begin
+  result := Self.create(Namespace);
+end;
+
+{ TFSDNewProjectNewFormMainSourceDFM }
+
+constructor TFSDNewProjectNewFormMainSourceDFM.create(Namespace: String);
+begin
+  FNamespace := Namespace;
+end;
+
+function TFSDNewProjectNewFormMainSourceDFM.GetAge: TDateTime;
+begin
+  result := -1;
+end;
+
+function TFSDNewProjectNewFormMainSourceDFM.GetSource: string;
+begin
+
+end;
+
+class function TFSDNewProjectNewFormMainSourceDFM.New(Namespace: String): IOTAFile;
+begin
+  result := Self.create(Namespace);
+end;
+
+end.

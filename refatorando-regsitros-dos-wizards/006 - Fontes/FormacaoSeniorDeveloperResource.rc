@@ -1,0 +1,4 @@
+sqlite BITMAP "Resources\\sqlite.bmp"
+mysql BITMAP "Resources\\mysql.bmp"
+postgres BITMAP "Resources\\postgres.bmp"
+sqldeveloper BITMAP "Resources\\sqldeveloper.bmp"

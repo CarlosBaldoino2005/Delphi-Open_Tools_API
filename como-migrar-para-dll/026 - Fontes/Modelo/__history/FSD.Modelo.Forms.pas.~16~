@@ -1,0 +1,153 @@
+unit FSD.Modelo.Forms;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DockForm, Vcl.StdCtrls,
+  Vcl.CheckLst, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteDef, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.SQLite,
+  Vcl.Menus, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.UI, Vcl.ExtDlgs,
+  FireDAC.Comp.DataSet;
+
+type
+  TFSDGeradorModeloForms = class(TDockableForm)
+    edtDataBase: TEdit;
+    Label3: TLabel;
+    btnSelectFile: TButton;
+    btnConnect: TButton;
+    Label6: TLabel;
+    chklstTabelas: TCheckListBox;
+    FDMetaInfoTable: TFDMetaInfoQuery;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+    openFile: TOpenTextFileDialog;
+    fdqTable: TFDQuery;
+    FDMetaInfoPK: TFDMetaInfoQuery;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    FDConn: TFDConnection;
+    pmMenuTabelas: TPopupMenu;
+    MarcarTodos1: TMenuItem;
+    DesmarcarTodos1: TMenuItem;
+    N1: TMenuItem;
+    GerarModelos1: TMenuItem;
+    GerarDAO: TMenuItem;
+    GerarFormulariodeCadastro1: TMenuItem;
+    procedure FDConnAfterConnect(Sender: TObject);
+    procedure FDConnAfterDisconnect(Sender: TObject);
+    procedure btnSelectFileClick(Sender: TObject);
+    procedure btnConnectClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure ListarTabelas;
+  public
+    constructor create(AOwner: TComponent); override;
+
+    { Public declarations }
+  end;
+
+var
+  FSDGeradorModeloForms: TFSDGeradorModeloForms;
+
+procedure ShowGeradorModelo;
+
+procedure RegisterModeloDockForm;
+procedure UnRegister;
+
+implementation
+
+uses
+  DeskUtil, ToolsAPI;
+
+procedure RegisterModeloDockForm;
+begin
+  {$IF CompilerVersion >= 32.0}
+  (BorlandIDEServices as IOTAIDEThemingServices250)
+    .RegisterFormClass(TFSDGeradorModeloForms);
+  {$ENDIF}
+
+  if not Assigned(FSDGeradorModeloForms) then
+    FSDGeradorModeloForms := TFSDGeradorModeloForms.Create(nil);
+
+  if @RegisterFieldAddress <> nil then
+    RegisterFieldAddress(FSDGeradorModeloForms.Name, @FSDGeradorModeloForms);
+
+  RegisterDesktopFormClass(TFSDGeradorModeloForms,
+                           FSDGeradorModeloForms.Name,
+                           FSDGeradorModeloForms.Name);
+end;
+
+procedure UnRegister;
+begin
+  if @UnregisterFieldAddress <> nil then
+    UnregisterFieldAddress(@FSDGeradorModeloForms);
+  FreeAndNil(FSDGeradorModeloForms);
+end;
+
+procedure ShowGeradorModelo;
+begin
+  ShowDockableForm(FSDGeradorModeloForms);
+  FocusWindow(FSDGeradorModeloForms);
+end;
+
+{$R *.dfm}
+
+{ TFSDGeradorModeloForms }
+
+procedure TFSDGeradorModeloForms.btnConnectClick(Sender: TObject);
+begin
+  FDConn.Params.Database := edtDataBase.Text;
+  FDConn.Connected := not FDConn.Connected;
+
+  ListarTabelas;
+end;
+
+procedure TFSDGeradorModeloForms.btnSelectFileClick(Sender: TObject);
+begin
+  openFile.InitialDir := ExtractFilePath(GetActiveProject.FileName);
+  if openFile.Execute then
+  begin
+    edtDataBase.Text := openFile.FileName;
+  end;
+end;
+
+constructor TFSDGeradorModeloForms.create(AOwner: TComponent);
+begin
+  inherited;
+  DeskSection := Name;
+  AutoSave := True;
+  SaveStateNecessary := True;
+end;
+
+procedure TFSDGeradorModeloForms.FDConnAfterConnect(Sender: TObject);
+begin
+  btnConnect.Caption := 'Desconectar';
+end;
+
+procedure TFSDGeradorModeloForms.FDConnAfterDisconnect(Sender: TObject);
+begin
+  btnConnect.Caption := 'Conectar';
+end;
+
+procedure TFSDGeradorModeloForms.ListarTabelas;
+begin
+  FDMetaInfoTable.CatalogName := 'main';
+  FDMetaInfoTable.Active := True;
+  FDMetaInfoTable.First;
+
+  chklstTabelas.Clear;
+  while not FDMetaInfoTable.Eof do
+  begin
+    chklstTabelas.Items.Add(FDMetaInfoTable.FieldByName('TABLE_NAME').AsString);
+    FDMetaInfoTable.Next;
+  end;
+end;
+
+initialization
+
+finalization
+  UnRegister;
+
+end.

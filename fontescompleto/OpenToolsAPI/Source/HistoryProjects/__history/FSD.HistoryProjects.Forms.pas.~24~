@@ -1,0 +1,156 @@
+unit FSD.HistoryProjects.Forms;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  ToolsAPI, DockForm, DeskUtil, System.IniFiles, System.Generics.Collections;
+
+type
+  TFSDHistoryProjectsForms = class(TDockableForm)
+    pnlTop: TPanel;
+    edtSearch: TEdit;
+    lstProjects: TListBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure edtSearchChange(Sender: TObject);
+    procedure lstProjectsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstProjectsDblClick(Sender: TObject);
+  private
+    FIniFile: TIniFile;
+    { Private declarations }
+
+    procedure AbrirProjeto;
+
+    procedure loadIniFile;
+    procedure listarProjetos;
+  public
+    { Public declarations }
+  end;
+
+var
+  FSDHistoryProjectsForms: TFSDHistoryProjectsForms;
+
+procedure ShowHistoryProjects;
+
+implementation
+
+procedure ShowHistoryProjects;
+begin
+  if not Assigned(FSDHistoryProjectsForms) then
+    FSDHistoryProjectsForms := TFSDHistoryProjectsForms.Create(nil);
+
+  FSDHistoryProjectsForms.ShowModal;
+end;
+
+{$R *.dfm}
+
+{ TFSDHistoryProjectsForms }
+
+procedure TFSDHistoryProjectsForms.AbrirProjeto;
+var
+  projectPath: String;
+  selecionado: string;
+  index: Integer;
+begin
+  index := 0;
+  if (lstProjects.ItemIndex >= 0) then
+    index := lstProjects.ItemIndex;
+
+  selecionado := lstProjects.Items[index];
+  projectPath := (Copy(selecionado, Pos('|', selecionado) + 1, 5000)).Trim;
+
+  (BorlandIDEServices as IOTAModuleServices)
+    .OpenModule(projectPath);
+
+  Self.Hide;
+end;
+
+procedure TFSDHistoryProjectsForms.edtSearchChange(Sender: TObject);
+begin
+  listarProjetos;
+end;
+
+procedure TFSDHistoryProjectsForms.edtSearchKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+    AbrirProjeto;
+end;
+
+procedure TFSDHistoryProjectsForms.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FIniFile);
+end;
+
+procedure TFSDHistoryProjectsForms.FormShow(Sender: TObject);
+begin
+  listarProjetos;
+  edtSearch.SetFocus;
+end;
+
+procedure TFSDHistoryProjectsForms.listarProjetos;
+var
+  sections: TStrings;
+  search : string;
+  projectName: String;
+  fileName: string;
+  i: Integer;
+begin
+  loadIniFile;
+  lstProjects.Clear;
+  search := LowerCase( edtSearch.Text );
+  sections := TStringList.Create;
+  try
+    FIniFile.ReadSections(sections);
+
+    for i := 0 to Pred(sections.Count) do
+    begin
+      projectName := FIniFile.ReadString(sections[i], 'ProjectName', '');
+      fileName := sections[i];
+
+      if not FileExists(fileName) then
+        Continue;
+
+      if (search.Trim.IsEmpty) or
+         (fileName.ToLower.Contains(search)) or
+         (projectName.ToLower.Contains(search)) then
+        lstProjects.Items.Add(projectName + ' | ' + fileName);
+    end;
+  finally
+    sections.Free;
+  end;
+
+end;
+
+procedure TFSDHistoryProjectsForms.loadIniFile;
+var
+  iniFileName: string;
+begin
+  FreeAndNil(FIniFile);
+  iniFileName := ExtractFilePath(GetModuleName(HInstance)) + '\SeniorDeveloper\HistoryProjects.ini';
+
+  FIniFile := TIniFile.Create(iniFileName);
+end;
+
+procedure TFSDHistoryProjectsForms.lstProjectsDblClick(Sender: TObject);
+begin
+  AbrirProjeto;
+end;
+
+procedure TFSDHistoryProjectsForms.lstProjectsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+    AbrirProjeto;
+end;
+
+initialization
+  (BorlandIDEServices as IOTAIDEThemingServices250)
+    .RegisterFormClass(TFSDHistoryProjectsForms);
+
+finalization
+  FSDHistoryProjectsForms.Free;
+
+end.

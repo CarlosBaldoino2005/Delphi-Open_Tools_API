@@ -1,0 +1,31 @@
+unit FSD.NewProject.Forms;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TFSDNewProjectForms = class(TForm)
+    Label1: TLabel;
+    edtNomeProjeto: TEdit;
+    Label2: TLabel;
+    edtDiretorio: TEdit;
+    btnCriar: TButton;
+    Label3: TLabel;
+    edtNamespace: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSDNewProjectForms: TFSDNewProjectForms;
+
+implementation
+
+{$R *.dfm}
+
+end.

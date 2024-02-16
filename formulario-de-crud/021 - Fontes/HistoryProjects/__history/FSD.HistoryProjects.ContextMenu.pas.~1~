@@ -1,0 +1,37 @@
+unit FSD.HistoryProjects.ContextMenu;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type
+  TFSDHistoryProjectsContextMenu = class(TNotifierObject, IOTAProjectMenuItemCreatorNotifier)
+
+  protected
+    procedure AddMenu(const Project: IOTAProject; const IdentList: TStrings;
+                      const ProjectManagerMenuList: IInterfaceList; IsMultiSelect: Boolean);
+  public
+    class function New: IOTAProjectMenuItemCreatorNotifier;
+  end;
+
+implementation
+
+{ TFSDHistoryProjectsContextMenu }
+
+procedure TFSDHistoryProjectsContextMenu.AddMenu(const Project: IOTAProject;
+                                                 const IdentList: TStrings;
+                                                 const ProjectManagerMenuList: IInterfaceList;
+                                                       IsMultiSelect: Boolean);
+begin
+
+end;
+
+class function TFSDHistoryProjectsContextMenu.New: IOTAProjectMenuItemCreatorNotifier;
+begin
+
+end;
+
+end.

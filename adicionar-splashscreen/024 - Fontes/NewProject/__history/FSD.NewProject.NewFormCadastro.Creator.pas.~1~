@@ -1,0 +1,26 @@
+unit FSD.NewProject.NewFormCadastro.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewProjectNewFormCadastroCreator = class(TNotifierObject,
+                                                  IOTACreator,
+                                                  IOTAModuleCreator)
+  private
+    FNamespace: String;
+
+  protected
+
+
+  public
+    constructor create(Path, Namespace: String);
+    class function New(Path, Namespace: String): IOTACreator;
+end;
+
+implementation
+
+end.

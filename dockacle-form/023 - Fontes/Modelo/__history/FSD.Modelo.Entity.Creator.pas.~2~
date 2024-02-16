@@ -1,0 +1,37 @@
+unit FSD.Modelo.Entity.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  FSD.Modelo.Classes;
+
+type TFSDModeloEntityCreator = class(TNotifierObject, IOTACreator,
+                                                      IOTAModuleCreator)
+  private
+    FTabela: TFSDModeloTabela;
+    FNamespace: string;
+
+  public
+    constructor create(Namespace: string; Tabela: TFSDModeloTabela);
+    class function New(Namespace: string; Tabela: TFSDModeloTabela): IOTACreator;
+end;
+
+implementation
+
+{ TFSDModeloEntityCreator }
+
+constructor TFSDModeloEntityCreator.create(Namespace: string; Tabela: TFSDModeloTabela);
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+end;
+
+class function TFSDModeloEntityCreator.New(Namespace: string; Tabela: TFSDModeloTabela): IOTACreator;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+end.

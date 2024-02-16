@@ -1,0 +1,150 @@
+object FSDGeradorModeloForms: TFSDGeradorModeloForms
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Gerador Modelo'
+  ClientHeight = 309
+  ClientWidth = 508
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  DesignSize = (
+    508
+    309)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label3: TLabel
+    Left = 14
+    Top = 9
+    Width = 46
+    Height = 13
+    Caption = 'Database'
+  end
+  object Label6: TLabel
+    Left = 14
+    Top = 85
+    Width = 97
+    Height = 23
+    AutoSize = False
+    Caption = 'TABELAS'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = [fsItalic]
+    ParentFont = False
+  end
+  object edtDataBase: TEdit
+    Left = 14
+    Top = 25
+    Width = 483
+    Height = 21
+    TabOrder = 0
+    Text = 
+      'D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToo' +
+      'lsAPI\ProjetoBase\Estoque\Estoque.db3'
+  end
+  object btnSelectFile: TButton
+    Left = 14
+    Top = 52
+    Width = 33
+    Height = 25
+    Caption = '...'
+    TabOrder = 1
+  end
+  object btnConnect: TButton
+    Left = 53
+    Top = 52
+    Width = 97
+    Height = 25
+    Caption = 'Conectar'
+    TabOrder = 2
+  end
+  object chklstTabelas: TCheckListBox
+    Left = 14
+    Top = 115
+    Width = 483
+    Height = 186
+    Anchors = [akLeft, akTop, akBottom]
+    Columns = 3
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ItemHeight = 19
+    ParentFont = False
+    TabOrder = 3
+  end
+  object FDMetaInfoTable: TFDMetaInfoQuery
+    Connection = FDConn
+    TableKinds = [tkTable]
+    Left = 480
+    Top = 111
+  end
+  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+    Left = 480
+    Top = 56
+  end
+  object openFile: TOpenTextFileDialog
+    Filter = 'db3|*.db3'
+    Left = 472
+  end
+  object fdqTable: TFDQuery
+    Connection = FDConn
+    SQL.Strings = (
+      'select * from pedido where 1 = 2')
+    Left = 403
+    Top = 47
+  end
+  object FDMetaInfoPK: TFDMetaInfoQuery
+    Connection = FDConn
+    MetaInfoKind = mkPrimaryKeyFields
+    TableKinds = [tkTable]
+    Left = 288
+    Top = 47
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 195
+    Top = 47
+  end
+  object FDConn: TFDConnection
+    Params.Strings = (
+      'Database=passaporteota'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    LoginPrompt = False
+    AfterConnect = FDConnAfterConnect
+    AfterDisconnect = FDConnAfterDisconnect
+    Left = 123
+    Top = 47
+  end
+  object pmMenuTabelas: TPopupMenu
+    Left = 344
+    Top = 208
+    object MarcarTodos1: TMenuItem
+      Caption = 'Marcar Todos'
+    end
+    object DesmarcarTodos1: TMenuItem
+      Caption = 'Desmarcar Todos'
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object GerarModelos1: TMenuItem
+      Caption = 'Gerar Modelos'
+    end
+    object GerarDAO: TMenuItem
+      Caption = 'Gerar DAO'
+    end
+    object GerarFormulariodeCadastro1: TMenuItem
+      Caption = 'Gerar Formulario de Cadastro'
+    end
+  end
+end

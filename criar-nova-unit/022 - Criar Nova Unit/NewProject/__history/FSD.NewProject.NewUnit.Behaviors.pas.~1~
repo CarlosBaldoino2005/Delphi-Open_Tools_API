@@ -1,0 +1,19 @@
+unit FSD.NewProject.NewUnit.Behaviors;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitBehaviors(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitBehaviors(ProjectPath, Namespace: String);
+begin
+
+end;
+
+end.

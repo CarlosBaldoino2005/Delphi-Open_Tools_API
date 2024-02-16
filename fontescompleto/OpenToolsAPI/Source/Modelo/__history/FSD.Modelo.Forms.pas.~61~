@@ -1,0 +1,273 @@
+unit FSD.Modelo.Forms;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.SQLite,
+  FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.Client, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.UI,
+  Vcl.StdCtrls, Vcl.ExtDlgs, Vcl.CheckLst,
+  ToolsAPI, Dockform, DeskUtil,
+  FSD.Modelo.Classes, System.Generics.Collections, Vcl.Menus,
+  FSD.Modelo.Entity.Creator,
+  FSD.Modelo.DAO.Creator,
+  FSD.Modelo.FormCadastro.Creator;
+
+type
+  TFSDGeradorModeloForms = class(TDockableForm)
+    Label3: TLabel;
+    edtDataBase: TEdit;
+    btnConnect: TButton;
+    FDConn: TFDConnection;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    FDMetaInfoTable: TFDMetaInfoQuery;
+    FDMetaInfoPK: TFDMetaInfoQuery;
+    fdqTable: TFDQuery;
+    btnSelectFile: TButton;
+    Label6: TLabel;
+    chklstTabelas: TCheckListBox;
+    openFile: TOpenTextFileDialog;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+    pmMenuTabelas: TPopupMenu;
+    MarcarTodos1: TMenuItem;
+    DesmarcarTodos1: TMenuItem;
+    N1: TMenuItem;
+    GerarModelos1: TMenuItem;
+    GerarDAO: TMenuItem;
+    GerarFormulariodeCadastro1: TMenuItem;
+    procedure btnSelectFileClick(Sender: TObject);
+    procedure btnConnectClick(Sender: TObject);
+    procedure FDConnAfterConnect(Sender: TObject);
+    procedure FDConnAfterDisconnect(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure GerarModelos1Click(Sender: TObject);
+    procedure GerarDAOClick(Sender: TObject);
+    procedure GerarFormulariodeCadastro1Click(Sender: TObject);
+  private
+    { Private declarations }
+    procedure ListarTabelas;
+    function GetTabela(Tabela: String): TFSDModeloTabela;
+
+    function GetNamespace: string;
+  public
+    function GetTabelas: TObjectList<TFSDModeloTabela>;
+
+    constructor Create(AOwner: TComponent); override;
+    { Public declarations }
+  end;
+
+var
+  FSDGeradorModeloForms: TFSDGeradorModeloForms;
+
+procedure Register;
+procedure UnRegister;
+
+procedure ShowGeradorModelo;
+
+implementation
+
+procedure Register;
+var
+  theme: IOTAIDEThemingServices250;
+begin
+  theme := (BorlandIDEServices as IOTAIDEThemingServices250);
+  theme.RegisterFormClass(TFSDGeradorModeloForms);
+
+  if not Assigned(FSDGeradorModeloForms) then
+    FSDGeradorModeloForms := TFSDGeradorModeloForms.Create(nil);
+
+  if @RegisterFieldAddress <> nil then
+    RegisterFieldAddress(FSDGeradorModeloForms.Name, @FSDGeradorModeloForms);
+
+  RegisterDesktopFormClass( TFSDGeradorModeloForms,
+                            FSDGeradorModeloForms.Name,
+                            FSDGeradorModeloForms.Name);
+end;
+
+procedure UnRegister;
+begin
+  if Assigned(FSDGeradorModeloForms) then
+  begin
+    if @UnregisterFieldAddress <> nil then
+      UnregisterFieldAddress(@FSDGeradorModeloForms);
+    FreeAndNil(FSDGeradorModeloForms);
+  end;
+end;
+
+procedure ShowGeradorModelo;
+begin
+  if not Assigned(FSDGeradorModeloForms) then
+    Exit;
+
+  ShowDockableForm(FSDGeradorModeloForms);
+  FocusWindow(FSDGeradorModeloForms);
+end;
+
+{$R *.dfm}
+
+procedure TFSDGeradorModeloForms.btnConnectClick(Sender: TObject);
+begin
+  FDConn.Params.Database := edtDataBase.Text;
+  FDConn.Connected := not FDConn.Connected;
+end;
+
+procedure TFSDGeradorModeloForms.btnSelectFileClick(Sender: TObject);
+begin
+  openFile.InitialDir := ExtractFilePath(GetActiveProject.FileName);
+  if openFile.Execute then
+  begin
+    edtDataBase.Text := openFile.FileName;
+  end;
+end;
+
+constructor TFSDGeradorModeloForms.Create(AOwner: TComponent);
+begin
+  inherited;
+  DeskSection        := Name;
+  AutoSave           := True;
+  SaveStateNecessary := True;
+end;
+
+function TFSDGeradorModeloForms.GetTabelas: TObjectList<TFSDModeloTabela>;
+var
+  i: Integer;
+begin
+  result := TObjectList<TFSDModeloTabela>.create;
+  try
+    for i := 0 to Pred(chklstTabelas.Count) do
+    begin
+      if chklstTabelas.Checked[i] then
+        Result.Add(GetTabela(chklstTabelas.Items[i]));
+    end;
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
+procedure TFSDGeradorModeloForms.FDConnAfterConnect(Sender: TObject);
+begin
+  btnConnect.Caption := 'Desconectar';
+  ListarTabelas;
+end;
+
+procedure TFSDGeradorModeloForms.FDConnAfterDisconnect(Sender: TObject);
+begin
+  btnConnect.Caption := 'Conectar';
+end;
+
+procedure TFSDGeradorModeloForms.FormShow(Sender: TObject);
+begin
+  btnConnect.Caption := 'Desconectar';
+  if FDConn.Connected then
+    btnConnect.Caption := 'Conectar';
+end;
+
+procedure TFSDGeradorModeloForms.GerarDAOClick(Sender: TObject);
+var
+  tabelas: TObjectList<TFSDModeloTabela>;
+  i: Integer;
+begin
+  tabelas := GetTabelas;
+  try
+    for i := 0 to Pred(tabelas.Count) do
+      TFSDModeloDAOCreator.New(GetNamespace, tabelas[i]);
+  finally
+    tabelas.Free;
+  end;
+end;
+
+procedure TFSDGeradorModeloForms.GerarFormulariodeCadastro1Click(Sender: TObject);
+var
+  tabelas: TObjectList<TFSDModeloTabela>;
+  i: Integer;
+begin
+  tabelas := GetTabelas;
+  try
+    for i := 0 to Pred(tabelas.Count) do
+      TFSDModeloFormCadastroCreator.New(GetNamespace, tabelas[i]);
+  finally
+    tabelas.Free;
+  end;
+end;
+
+procedure TFSDGeradorModeloForms.GerarModelos1Click(Sender: TObject);
+var
+  tabelas: TObjectList<TFSDModeloTabela>;
+  i: Integer;
+begin
+  tabelas := GetTabelas;
+  try
+    for i := 0 to Pred(tabelas.Count) do
+      TFSDEntityCreator.New(GetNamespace, tabelas[i]);
+  finally
+    tabelas.Free;
+  end;
+end;
+
+function TFSDGeradorModeloForms.GetTabela(Tabela: String): TFSDModeloTabela;
+var
+  i: Integer;
+begin
+  fdqTable.Close;
+  fdqTable.SQL.Text := Format('select * from %s where 1 = 2', [Tabela]);
+  fdqTable.Open;
+
+  result := TFSDModeloTabela.create;
+  try
+    Result.nome := Tabela;
+    for i := 0 to Pred(fdqTable.FieldCount) do
+      result.AddCampo(fdqTable.Fields[i].FieldName, fdqTable.Fields[i].DataType);
+  except
+    result.Free;
+    raise;
+  end;
+end;
+
+function TFSDGeradorModeloForms.GetNamespace: string;
+var
+  config : IOTAProjectOptionsConfigurations;
+  build  : IOTABuildConfiguration;
+  infoKeys: string;
+  lista: TStringList;
+begin
+  config := (GetActiveProject.ProjectOptions as IOTAProjectOptionsConfigurations);
+  build  := config.BaseConfiguration;
+
+  infoKeys := build.GetValue('VerInfo_Keys');
+  lista := TStringList.Create;
+  try
+    lista.Delimiter := ';';
+    lista.StrictDelimiter := True;
+    lista.DelimitedText := infoKeys;
+    result := lista.Values['Namespace'];
+  finally
+    lista.Free;
+  end;
+end;
+
+procedure TFSDGeradorModeloForms.ListarTabelas;
+begin
+  FDMetaInfoTable.CatalogName := 'main';
+  FDMetaInfoTable.Active := True;
+  FDMetaInfoTable.First;
+
+  chklstTabelas.Clear;
+  while not FDMetaInfoTable.Eof do
+  begin
+    chklstTabelas.Items.Add(FDMetaInfoTable.FieldByName('TABLE_NAME').AsString);
+    FDMetaInfoTable.Next;
+  end;
+end;
+
+initialization
+
+finalization
+  UnRegister;
+
+end.

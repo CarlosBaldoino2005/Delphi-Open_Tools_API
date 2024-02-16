@@ -1,0 +1,62 @@
+unit FSD.BasicMenu.Wizard;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  ToolsAPI,
+  Vcl.Dialogs;
+
+type TFSDBasicMenuWizard = class(TNotifierObject, IOTAWizard, IOTAMenuWizard)
+
+  protected
+    { Expert UI strings }
+    function GetIDString: string;
+    function GetName: string;
+    function GetState: TWizardState;
+
+    { Launch the AddIn }
+    procedure Execute;
+
+    function GetMenuText: string;
+
+  public
+    class function New: IOTAWizard;
+end;
+
+implementation
+
+{ TFSDBasicMenuWizard }
+
+procedure TFSDBasicMenuWizard.Execute;
+begin
+  ShowMessage('Olá');
+end;
+
+function TFSDBasicMenuWizard.GetIDString: string;
+begin
+  result := Self.ClassName;
+end;
+
+function TFSDBasicMenuWizard.GetMenuText: string;
+begin
+  result := 'Formação Senior Developer';
+end;
+
+function TFSDBasicMenuWizard.GetName: string;
+begin
+  result := 'Basic Menu';
+end;
+
+function TFSDBasicMenuWizard.GetState: TWizardState;
+begin
+  Result := [wsEnabled];
+end;
+
+class function TFSDBasicMenuWizard.New: IOTAWizard;
+begin
+  result := Self.Create;
+end;
+
+end.

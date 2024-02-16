@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2021/06/06 15:57:28.511,=rtl.dcp</Transaction>
+    <Transaction>2021/06/06 15:57:46.766,=designide.dcp</Transaction>
+    <Transaction>2021/06/06 15:59:46.645,D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\FormacaoSenior.dproj=D:\Documentos\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
+    <Transaction>2021/06/06 16:00:05.231,=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Unit1.pas</Transaction>
+    <Transaction>2021/06/06 16:01:25.123,D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\BasicMenu\FSD.BasicMenu.Wizard.pas=D:\Desenvolvimento\workspace\Delphi\FormacaoDelphiSenior\OpenToolsAPI_Aulas\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

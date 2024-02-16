@@ -1,0 +1,164 @@
+unit FSD.NewProject.NewForm.Cadastro;
+
+interface
+
+uses
+  Vcl.Dialogs,
+  ToolsAPI,
+  DCCStrs,
+  System.SysUtils,
+  System.Classes,
+  FSD.NewProject.NewForm.Cadastro.SourceFile;
+
+type TFSDNewProjectCadastroFormCreator = class(TNotifierObject, IOTACreator, IOTAModuleCreator)
+
+  private
+    FProjectPath: string;
+    FUnitPath: string;
+    FUnitName: string;
+    FUnitFileName: string;
+    FNamespace: String;
+
+  protected
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileSystem: string;
+    function GetOwner: IOTAModule;
+    function GetUnnamed: Boolean;
+
+    function GetAncestorName: string;
+    { Return the implementation filename, or blank to have the IDE create a new
+      unique one. (C++ .cpp file or Delphi unit) NOTE: If a value is returned then it *must* be a
+      fully qualified filename.  This also applies to GetIntfFileName and
+      GetAdditionalFileName on the IOTAAdditionalFilesModuleCreator interface. }
+    function GetImplFileName: string;
+    { Return the interface filename, or blank to have the IDE create a new
+      unique one.  (C++ header) }
+    function GetIntfFileName: string;
+    { Return the form name }
+    function GetFormName: string;
+    { Return True to Make this module the Cadastro form of the given Owner/Project }
+    function GetMainForm: Boolean;
+    { Return True to show the form }
+    function GetShowForm: Boolean;
+    { Return True to show the source }
+    function GetShowSource: Boolean;
+    { Create and return the Form resource for this new module if applicable }
+    function NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+    { Create and return the Implementation source for this module. (C++ .cpp
+      file or Delphi unit) }
+    function NewImplSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+    { Create and return the Interface (C++ header) source for this module }
+    function NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+    { Called when the new form/datamodule/custom module is created }
+    procedure FormCreated(const FormEditor: IOTAFormEditor);
+  public
+    constructor create(Namespace: String);
+    class function New(Namespace: string): IOTACreator;
+end;
+
+implementation
+
+{ TFSDNewProjectCadastroFormCreator }
+
+constructor TFSDNewProjectCadastroFormCreator.create(Namespace: String);
+var
+  module: IOTAModule;
+begin
+  FNamespace   := Namespace;
+  FProjectPath := ExtractFilePath(GetActiveProject.FileName);
+  FUnitPath    := FProjectPath + 'Source\View\';
+  FUnitFileName:= FUnitPath + FNamespace + '.View.Cadastro.pas';
+
+  ForceDirectories(FUnitPath);
+
+  module := (BorlandIDEServices as IOTAModuleServices).CreateModule(Self);
+  module.FileName := FUnitFileName;
+  Module.Save(False, True);
+end;
+
+procedure TFSDNewProjectCadastroFormCreator.FormCreated(const FormEditor: IOTAFormEditor);
+begin
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetAncestorName: string;
+begin
+  result := 'TForm';
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetCreatorType: string;
+begin
+  result := sForm;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetFileSystem: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetFormName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetImplFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetIntfFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetMainForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetShowForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetShowSource: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectCadastroFormCreator.GetUnnamed: Boolean;
+begin
+  result := False;
+end;
+
+class function TFSDNewProjectCadastroFormCreator.New(Namespace: string): IOTACreator;
+begin
+  result := Self.create(Namespace);
+end;
+
+function TFSDNewProjectCadastroFormCreator.NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := TFSDNewProjectNewFormCadastroSourceDFM.New(FNamespace)
+end;
+
+function TFSDNewProjectCadastroFormCreator.NewImplSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  Result := TFSDNewProjectNewFormCadastroSourcePAS.New(FNamespace);
+end;
+
+function TFSDNewProjectCadastroFormCreator.NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := nil;
+end;
+
+end.

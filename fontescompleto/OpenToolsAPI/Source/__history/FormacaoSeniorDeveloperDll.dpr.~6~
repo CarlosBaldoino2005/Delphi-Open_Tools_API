@@ -1,0 +1,49 @@
+library FormacaoSeniorDeveloperDll;
+
+uses
+  System.SysUtils,
+  System.Classes,
+  FSD.BasicMenu.Wizard in 'BasicMenu\FSD.BasicMenu.Wizard.pas',
+  FSD.MainMenu.Wizard in 'MainMenu\FSD.MainMenu.Wizard.pas',
+  FSD.Modelo.Classes in 'Modelo\FSD.Modelo.Classes.pas',
+  FSD.Modelo.DAO.Creator in 'Modelo\FSD.Modelo.DAO.Creator.pas',
+  FSD.Modelo.DAO.SourceFile in 'Modelo\FSD.Modelo.DAO.SourceFile.pas',
+  FSD.Modelo.Entity.Creator in 'Modelo\FSD.Modelo.Entity.Creator.pas',
+  FSD.Modelo.Entity.SourceFile in 'Modelo\FSD.Modelo.Entity.SourceFile.pas',
+  FSD.Modelo.FormCadastro.Creator in 'Modelo\FSD.Modelo.FormCadastro.Creator.pas',
+  FSD.Modelo.FormCadastro.SourceFile in 'Modelo\FSD.Modelo.FormCadastro.SourceFile.pas',
+  FSD.Modelo.Forms in 'Modelo\FSD.Modelo.Forms.pas' {FSDGeradorModeloForms},
+  FSD.NewProject.Creator in 'NewProject\FSD.NewProject.Creator.pas',
+  FSD.NewProject.Forms in 'NewProject\FSD.NewProject.Forms.pas' {FSDNewProjectForms},
+  FSD.NewProject.NewForm.Cadastro in 'NewProject\FSD.NewProject.NewForm.Cadastro.pas',
+  FSD.NewProject.NewForm.Cadastro.SourceFile in 'NewProject\FSD.NewProject.NewForm.Cadastro.SourceFile.pas',
+  FSD.NewProject.NewForm.Main in 'NewProject\FSD.NewProject.NewForm.Main.pas',
+  FSD.NewProject.NewForm.Main.SourceFile in 'NewProject\FSD.NewProject.NewForm.Main.SourceFile.pas',
+  FSD.NewProject.NewUnit.Behaviors in 'NewProject\FSD.NewProject.NewUnit.Behaviors.pas',
+  FSD.NewProject.NewUnit.Component.ConnectionFiredac in 'NewProject\FSD.NewProject.NewUnit.Component.ConnectionFiredac.pas',
+  FSD.NewProject.NewUnit.Component.ConnectionInterfaces in 'NewProject\FSD.NewProject.NewUnit.Component.ConnectionInterfaces.pas',
+  FSD.NewProject.NewUnit.ComponentFactory in 'NewProject\FSD.NewProject.NewUnit.ComponentFactory.pas',
+  FSD.NewProject.NewUnit.ComponentInterfaces in 'NewProject\FSD.NewProject.NewUnit.ComponentInterfaces.pas',
+  FSD.NewProject.NewUnit.Controller in 'NewProject\FSD.NewProject.NewUnit.Controller.pas',
+  FSD.NewProject.NewUnit.DAOBase in 'NewProject\FSD.NewProject.NewUnit.DAOBase.pas',
+  FSD.NewProject.NewUnit.DAOFactory in 'NewProject\FSD.NewProject.NewUnit.DAOFactory.pas',
+  FSD.NewProject.NewUnit.DAOInterfaces in 'NewProject\FSD.NewProject.NewUnit.DAOInterfaces.pas',
+  FSD.NewProject.NewUnit.Model in 'NewProject\FSD.NewProject.NewUnit.Model.pas',
+  FSD.NewProject.NewUnit.ModelInterfaces in 'NewProject\FSD.NewProject.NewUnit.ModelInterfaces.pas',
+  FSD.NewProject.SourceFile in 'NewProject\FSD.NewProject.SourceFile.pas',
+  FSD.NewProject.Wizard in 'NewProject\FSD.NewProject.Wizard.pas',
+  FSD.Utils in 'FSD.Utils.pas',
+  FSD.DLL.Register in 'FSD.DLL.Register.pas',
+  ToolsAPI,
+  FSD.HistoryProjects.Binding in 'HistoryProjects\FSD.HistoryProjects.Binding.pas',
+  FSD.HistoryProjects.ContextMenu in 'HistoryProjects\FSD.HistoryProjects.ContextMenu.pas',
+  FSD.HistoryProjects.Forms in 'HistoryProjects\FSD.HistoryProjects.Forms.pas' {FSDHistoryProjectsForms},
+  FSD.HistoryProjects.Notifier in 'HistoryProjects\FSD.HistoryProjects.Notifier.pas';
+
+exports
+  RegisterDLL Name WizardEntryPoint;
+
+{$R *.res}
+
+begin
+end.

@@ -1,0 +1,34 @@
+unit FSD.NewProject.NewUnit.DAOInterfaces;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitDAOInterfaces(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitDAOInterfaces(ProjectPath, Namespace: String);
+var
+  unitName: String;
+  unitPath: string;
+  unitFileName: string;
+begin
+  unitPath  := ProjectPath + '\Source\Model\DAO\';
+  unitName  := Namespace + '.DAO.Interfaces';
+  unitFileName := unitPath + unitName + '.pas';
+
+  ForceDirectories(unitPath);
+
+  with TStringList.Create do
+  try
+
+  finally
+    Free;
+  end;
+end;
+
+end.

@@ -1,0 +1,203 @@
+unit FSD.NewProject.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  Dccstrs,
+  FSD.NewProject.SourceFile,
+  FSD.NewProject.NewUnit.Behaviors,
+  FSD.NewProject.NewUnit.Component.ConnectionInterfaces,
+  FSD.NewProject.NewUnit.Component.ConnectionFiredac,
+  FSD.NewProject.NewUnit.ComponentInterfaces,
+  FSD.NewProject.NewUnit.ComponentFactory,
+  FSD.NewProject.NewUnit.DAOInterfaces,
+  FSD.NewProject.NewUnit.DAOFactory,
+  FSD.NewProject.NewUnit.DAOBase,
+  FSD.NewProject.NewUnit.ModelInterfaces,
+  FSD.NewProject.NewUnit.Model,
+  FSD.NewProject.NewUnit.Controller,
+  FSD.NewProject.NewForm.Main,
+  FSD.NewProject.NewForm.Cadastro,
+  PlatformAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewProjectCreator = class(TNotifierObject, IOTACreator,
+                                                    IOTAProjectCreator,
+                                                    IOTAProjectCreator80,
+                                                    IOTAProjectCreator160)
+
+  private
+    FProjectName: String;
+    FNamespace: String;
+    FPath: string;
+
+  protected
+    // IOTACreator
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileSystem: string;
+    function GetOwner: IOTAModule;
+    function GetUnnamed: Boolean;
+
+    // IOTAProjectCreator
+    function GetFileName: string;
+    function GetOptionFileName: string; deprecated;
+    function GetShowSource: Boolean;
+    procedure NewDefaultModule; deprecated;
+    function NewOptionSource(const ProjectName: string): IOTAFile; deprecated;
+    procedure NewProjectResource(const Project: IOTAProject);
+    procedure NewDefaultProjectModule(const Project: IOTAProject);
+    { Create and return the Project source file }
+    function NewProjectSource(const ProjectName: string): IOTAFile;
+
+    function GetProjectPersonality: string;
+
+    function GetFrameworkType: string;
+    function GetPlatforms: TArray<string>;
+    function GetPreferredPlatform: string;
+
+    procedure SetInitialOptions(const NewProject: IOTAProject);
+
+  public
+    constructor create(ProjectName, Namespace, Path: String);
+    class function New(ProjectName, Namespace, Path: String): IOTAProjectCreator;
+end;
+
+implementation
+
+{ TFSDNewProjectCreator }
+
+constructor TFSDNewProjectCreator.create(ProjectName, Namespace, Path: String);
+begin
+  FProjectName := ProjectName;
+  FNamespace := Namespace;
+  FPath := Path;
+end;
+
+function TFSDNewProjectCreator.GetCreatorType: string;
+begin
+  result := sApplication;
+end;
+
+function TFSDNewProjectCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewProjectCreator.GetFileName: string;
+begin
+  Result := (FPath + FProjectName + '.dpr');
+end;
+
+function TFSDNewProjectCreator.GetFileSystem: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCreator.GetFrameworkType: string;
+begin
+  result := 'VCL';
+end;
+
+function TFSDNewProjectCreator.GetOptionFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDNewProjectCreator.GetOwner: IOTAModule;
+begin
+  result := (BorlandIDEServices as IOTAModuleServices).MainProjectGroup;
+end;
+
+function TFSDNewProjectCreator.GetPlatforms: TArray<string>;
+begin
+  SetLength(result, 0);
+end;
+
+function TFSDNewProjectCreator.GetPreferredPlatform: string;
+begin
+  result := '';
+end;
+
+function TFSDNewProjectCreator.GetProjectPersonality: string;
+begin
+  Result := sDelphiPersonality;
+end;
+
+function TFSDNewProjectCreator.GetShowSource: Boolean;
+begin
+  result := True;
+end;
+
+function TFSDNewProjectCreator.GetUnnamed: Boolean;
+begin
+  result := True;
+end;
+
+class function TFSDNewProjectCreator.New(ProjectName, Namespace, Path: String): IOTAProjectCreator;
+begin
+  result := Self.create(ProjectName, Namespace, Path);
+end;
+
+procedure TFSDNewProjectCreator.NewDefaultModule;
+begin
+end;
+
+procedure TFSDNewProjectCreator.NewDefaultProjectModule(const Project: IOTAProject);
+begin
+
+end;
+
+function TFSDNewProjectCreator.NewOptionSource(const ProjectName: string): IOTAFile;
+begin
+  result := nil;
+end;
+
+procedure TFSDNewProjectCreator.NewProjectResource(const Project: IOTAProject);
+begin
+end;
+
+function TFSDNewProjectCreator.NewProjectSource(const ProjectName: string): IOTAFile;
+begin
+  result := TFSDNewProjectSourceFile.New(FProjectName);
+end;
+
+procedure TFSDNewProjectCreator.SetInitialOptions(const NewProject: IOTAProject);
+var
+  config : IOTAProjectOptionsConfigurations;
+  build  : IOTABuildConfiguration;
+  verInfoKeys: String;
+begin
+//  verInfoKeys := 'CompanyName=;FileDescription=$(MSBuildProjectName);' +
+//             'FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;' +
+//             'OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);' +
+//             'ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;' +
+//             'Namespace=' + FNamespace;
+//
+//  config := (NewProject.ProjectOptions as IOTAProjectOptionsConfigurations);
+//  build  := config.BaseConfiguration;
+//
+//  build.SetValue(sDUPLICATE_CTOR_DTOR, 'false');
+//  build.SetValue(sExeOutput, Self.FPath);
+//  build.SetValue('VerInfo_IncludeVerInfo', 'true');
+//  build.SetValue('VerInfo_Keys', verInfoKeys);
+//
+//  CreateUnitComponentConnectionInterfaces(FPath, FNamespace);
+//  CreateUnitComponentConnectionFiredac(FPath, FNamespace);
+//  CreateUnitComponentInterfaces(FPath, FNamespace);
+//  CreateUnitComponentFactory(FPath, FNamespace);
+//  CreateUnitBehaviors(FPath, FNamespace);
+//  CreateUnitDAOInterfaces(FPath, FNamespace);
+//  CreateUnitDAOFactory(FPath, FNamespace);
+//  CreateUnitDAOBase(FPath, FNamespace);
+//  CreateUnitModelInterfaces(FPath, FNamespace);
+//  CreateUnitModel(FPath, FNamespace);
+//  CreateUnitController(FPath, FNamespace);
+//
+//  TFSDNewProjectMainFormCreator.New(FNamespace);
+//  TFSDNewProjectCadastroFormCreator.New(FNamespace);
+end;
+
+end.

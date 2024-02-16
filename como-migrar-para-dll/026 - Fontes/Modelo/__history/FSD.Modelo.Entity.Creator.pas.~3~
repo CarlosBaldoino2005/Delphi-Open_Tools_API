@@ -1,0 +1,75 @@
+unit FSD.Modelo.Entity.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  FSD.Modelo.Classes;
+
+type TFSDModeloEntityCreator = class(TNotifierObject, IOTACreator,
+                                                      IOTAModuleCreator)
+  private
+    FTabela: TFSDModeloTabela;
+    FNamespace: string;
+
+  protected
+    function GetCreatorType: string;
+    { Return False if this is a new module }
+    function GetExisting: Boolean;
+    { Return the File system IDString that this module uses for reading/writing }
+    function GetFileSystem: string;
+    { Return the Owning module, if one exists (for a project module, this would
+      be a project; for a project this is a project group) }
+    function GetOwner: IOTAModule;
+    { Return true, if this item is to be marked as un-named.  This will force the
+      save as dialog to appear the first time the user saves. }
+    function GetUnnamed: Boolean;
+
+  public
+    constructor create(Namespace: string; Tabela: TFSDModeloTabela);
+    class function New(Namespace: string; Tabela: TFSDModeloTabela): IOTACreator;
+end;
+
+implementation
+
+{ TFSDModeloEntityCreator }
+
+constructor TFSDModeloEntityCreator.create(Namespace: string; Tabela: TFSDModeloTabela);
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+end;
+
+function TFSDModeloEntityCreator.GetCreatorType: string;
+begin
+  result := sUnit;
+end;
+
+function TFSDModeloEntityCreator.GetExisting: Boolean;
+begin
+
+end;
+
+function TFSDModeloEntityCreator.GetFileSystem: string;
+begin
+
+end;
+
+function TFSDModeloEntityCreator.GetOwner: IOTAModule;
+begin
+
+end;
+
+function TFSDModeloEntityCreator.GetUnnamed: Boolean;
+begin
+
+end;
+
+class function TFSDModeloEntityCreator.New(Namespace: string; Tabela: TFSDModeloTabela): IOTACreator;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+end.

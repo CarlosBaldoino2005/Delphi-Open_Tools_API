@@ -1,0 +1,59 @@
+unit FSD.NewProject.NewFormCadastro.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type
+  TFSDNewProjectNewFormCadastroSourceDFM = class(TNotifierObject, IOTAFile)
+
+  private
+    FNamespace: String;
+
+  public
+    constructor create(Namespace: String);
+    class function New(Namespace: String): IOTAFile;
+
+  end;
+
+  TFSDNewProjectNewFormCadastroSourcePAS = class(TNotifierObject, IOTAFile)
+
+  private
+    FNamespace: String;
+
+  public
+    constructor create(Namespace: String);
+    class function New(Namespace: String): IOTAFile;
+
+  end;
+
+implementation
+
+{ TFSDNewProjectNewFormCadastroSourceDFM }
+
+constructor TFSDNewProjectNewFormCadastroSourceDFM.create(Namespace: String);
+begin
+  FNamespace := Namespace;
+end;
+
+class function TFSDNewProjectNewFormCadastroSourceDFM.New(Namespace: String): IOTAFile;
+begin
+  result := Self.create(Namespace);
+end;
+
+{ TFSDNewProjectNewFormCadastroSourcePAS }
+
+constructor TFSDNewProjectNewFormCadastroSourcePAS.create(Namespace: String);
+begin
+  FNamespace := Namespace;
+end;
+
+class function TFSDNewProjectNewFormCadastroSourcePAS.New(Namespace: String): IOTAFile;
+begin
+  result := Self.create(Namespace);
+end;
+
+end.

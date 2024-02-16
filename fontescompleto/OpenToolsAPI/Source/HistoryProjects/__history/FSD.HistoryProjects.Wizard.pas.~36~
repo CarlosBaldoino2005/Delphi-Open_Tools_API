@@ -1,0 +1,88 @@
+unit FSD.HistoryProjects.Wizard;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  System.IniFiles,
+  System.DateUtils;
+
+type TFSDHistoryProjectsNotifier = class(TNotifierObject, IOTANotifier, IOTAIDENotifier80)
+
+  protected
+    { This procedure is called for many various file operations within the
+      IDE }
+    procedure FileNotification(NotifyCode: TOTAFileNotification; const FileName: string; var Cancel: Boolean);
+    { This function is called immediately before the compiler is invoked.
+      Set Cancel to True to cancel the compile }
+    procedure BeforeCompile(const Project: IOTAProject; var Cancel: Boolean); overload;
+    procedure BeforeCompile(const Project: IOTAProject; IsCodeInsight: Boolean;
+      var Cancel: Boolean); overload;
+    { Same as AfterCompile on IOTAIDENotifier except indicates if the compiler
+      was invoked due to a CodeInsight compile }
+    procedure AfterCompile(Succeeded: Boolean; IsCodeInsight: Boolean); overload;
+    { This procedure is called immediately following a compile.  Succeeded
+      will be true if the compile was successful }
+    procedure AfterCompile(Succeeded: Boolean); overload;
+    procedure AfterCompile(const Project: IOTAProject; Succeeded:
+      Boolean; IsCodeInsight: Boolean); overload;
+
+  public
+    class function New: IOTAIDENotifier;
+end;
+
+implementation
+
+{ TFSDHistoryProjectsNotifier }
+
+procedure TFSDHistoryProjectsNotifier.AfterCompile(Succeeded: Boolean);
+begin
+end;
+
+procedure TFSDHistoryProjectsNotifier.AfterCompile(
+  const Project: IOTAProject; Succeeded, IsCodeInsight: Boolean);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsNotifier.BeforeCompile(
+  const Project: IOTAProject; IsCodeInsight: Boolean; var Cancel: Boolean);
+begin
+  Cancel := False;
+end;
+
+procedure TFSDHistoryProjectsNotifier.BeforeCompile(const Project: IOTAProject; var Cancel: Boolean);
+begin
+  Cancel := False;
+end;
+
+procedure TFSDHistoryProjectsNotifier.FileNotification(NotifyCode: TOTAFileNotification; const FileName: string; var Cancel: Boolean);
+//var
+//  iniFile: TIniFile;
+begin
+  Cancel := False;
+//  if (not FileName.EndsWith('.dproj')) or (NotifyCode <> ofnFileOpened) then
+//    Exit;
+
+//  iniFile := TIniFile.Create('HistoryProjects.ini');
+//  try
+//    iniFile.WriteString(FileName, 'ProjectName', ExtractFilePath(FileName));
+//  finally
+//    iniFile.Free;
+//  end;
+end;
+
+class function TFSDHistoryProjectsNotifier.New: IOTAIDENotifier80;
+begin
+  result := self.Create;
+end;
+
+procedure TFSDHistoryProjectsNotifier.AfterCompile(Succeeded,
+  IsCodeInsight: Boolean);
+begin
+
+end;
+
+end.

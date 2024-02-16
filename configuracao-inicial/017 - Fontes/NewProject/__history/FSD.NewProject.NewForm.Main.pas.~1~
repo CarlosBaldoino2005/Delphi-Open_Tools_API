@@ -1,0 +1,25 @@
+unit FSD.NewProject.NewForm.Main;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewProjectMainFormCreator = class(TNotifierObject, IOTACreator,
+                                                            IOTAModuleCreator)
+  private
+    FNamespace: string;
+
+  protected
+
+  public
+    class function New(Path, Namespace: string): IOTACreator;
+    constructor create(Path, Namespace: string);
+
+end;
+
+implementation
+
+end.

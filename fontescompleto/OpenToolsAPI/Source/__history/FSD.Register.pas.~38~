@@ -1,0 +1,37 @@
+unit FSD.Register;
+
+interface
+
+uses
+  ToolsAPI,
+  deskutil,
+  System.SysUtils,
+  FSD.BasicMenu.Wizard,
+  FSD.MainMenu.Wizard,
+  FSD.NewProject.Wizard,
+  FSD.Modelo.Forms,
+  FSD.HistoryProjects.Binding,
+  FSD.HistoryProjects.Notifier,
+  FSD.HistoryProjects.Forms;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterBasicMenuWizard;
+  RegisterMainMenuWizard;
+  RegisterNewProjectWizard;
+  RegisterModeloDockForm;
+  RegisterHistoryProjectsNotifier;
+  RegisterHistoryProjectDockForm;
+//  RegisterHistoryProjectsBinding;
+end;
+
+initialization
+
+finalization
+
+
+end.

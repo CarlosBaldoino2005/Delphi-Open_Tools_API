@@ -1,0 +1,18 @@
+unit FSD.Modelo.Entity.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  FSD.Modelo.Classes;
+
+type TFSDModeloEntityCreator = class(TNotifierObject, IOTACreator,
+                                                      IOTAModuleCreator)
+
+end;
+
+implementation
+
+end.

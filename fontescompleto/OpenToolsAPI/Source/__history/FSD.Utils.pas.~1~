@@ -1,0 +1,14 @@
+unit FSD.Utils;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  ToolsAPI;
+
+
+
+implementation
+
+end.

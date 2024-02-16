@@ -1,0 +1,48 @@
+unit FSD.NewProject.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewProjectSourceFile = class(TNotifierObject, IOTAFile)
+
+  private
+    FProjectName: string;
+
+  protected
+    function GetSource: string;
+    function GetAge: TDateTime;
+
+  public
+    constructor create(ProjectName: String);
+    class function New(ProjectName: String): IOTAFile;
+end;
+
+implementation
+
+{ TFSDNewProjectSourceFile }
+
+constructor TFSDNewProjectSourceFile.create(ProjectName: String);
+begin
+  FProjectName := ProjectName;
+end;
+
+function TFSDNewProjectSourceFile.GetAge: TDateTime;
+begin
+
+end;
+
+function TFSDNewProjectSourceFile.GetSource: string;
+begin
+
+end;
+
+class function TFSDNewProjectSourceFile.New(ProjectName: String): IOTAFile;
+begin
+  Result := Self.create(ProjectName);
+end;
+
+end.

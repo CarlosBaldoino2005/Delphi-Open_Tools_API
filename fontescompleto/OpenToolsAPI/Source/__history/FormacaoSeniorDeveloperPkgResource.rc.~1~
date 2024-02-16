@@ -1,0 +1,7 @@
+delphi_ico ICON "Resources\\delphi_ico.ico"
+mysql BITMAP "Resources\\mysql.bmp"
+sqldeveloper BITMAP "Resources\\sqldeveloper.bmp"
+sqlite BITMAP "Resources\\sqlite.bmp"
+postgres BITMAP "Resources\\postgres.bmp"
+formacao BITMAP "Resources\\formacao.bmp"
+thulio BITMAP "Resources\\thulio.bmp"

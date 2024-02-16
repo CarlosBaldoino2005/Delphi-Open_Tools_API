@@ -1,0 +1,355 @@
+unit FSD.Modelo.DAO.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Dialogs,
+  FSD.Utils,
+  FSD.Modelo.Classes,
+  FSD.Modelo.DAO.SourceFile;
+
+type TFSDModeloDAOCreator = class(TNotifierObject, IOTACreator, IOTAModuleCreator)
+
+  private
+    FNamespace: string;
+    FTabela: TFSDModeloTabela;
+    FFileName: string;
+
+    procedure EditUnitDAOFactory;
+    procedure EditUnitDAOFactoryUses(AFileName: String);
+    procedure EditUnitDAOFactoryInterfaceMethod(AFileName: String);
+    procedure EditUnitDAOFactoryClassVar(AFileName: String);    
+    procedure EditUnitDAOFactoryClassMethod(AFileName: String);    
+    procedure EditUnitDAOFactoryMethodImplementation(AFileName: String);
+  protected
+    // IOTACreator
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileSystem: string;
+    function GetOwner: IOTAModule;
+    function GetUnnamed: Boolean;
+
+    // IOTAModuleCreator
+    function GetAncestorName: string;
+    function GetImplFileName: string;
+    function GetIntfFileName: string;
+    function GetFormName: string;
+    function GetMainForm: Boolean;
+    function GetShowForm: Boolean;
+    function GetShowSource: Boolean;
+    function NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+    function NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+    function NewImplSource(const ModuleIdent: string; const FormIdent: string; const AncestorIdent: string): IOTAFile;
+    procedure FormCreated(const FormEditor: IOTAFormEditor);
+
+  public
+    constructor create(Namespace: String; Tabela: TFSDModeloTabela);
+    class function New(Namespace: String; Tabela: TFSDModeloTabela): IOTACreator;
+end;
+
+implementation
+
+{ TFSDModeloDAOCreator }
+
+constructor TFSDModeloDAOCreator.create(Namespace: String; Tabela: TFSDModeloTabela);
+var
+  module : IOTAModule;
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+  FFileName := ExtractFilePath(GetActiveProject.FileName) +
+                 Format('Source\Model\DAO\%s.DAO.%s.pas', [FNamespace, FTabela.nome]);
+
+  ForceDirectories(ExtractFilePath(FFileName));
+
+  module := (BorlandIDEServices as IOTAModuleServices).CreateModule(Self);
+  module.FileName := FFileName;
+  module.Save(False, True);
+
+  EditUnitDAOFactory;
+
+  module.Show;
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactory;
+var
+  unitName: String;
+begin
+  unitName := ExtractFilePath(GetActiveProject.FileName) +
+                Format('Source\Model\DAO\%s.DAO.Factory.pas', [FNamespace]);
+
+  EditUnitDAOFactoryUses(unitName);
+  EditUnitDAOFactoryInterfaceMethod(unitName);
+  EditUnitDAOFactoryClassVar(unitName);
+  EditUnitDAOFactoryClassMethod(unitName);
+  EditUnitDAOFactoryMethodImplementation(unitName);
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactoryClassMethod(AFileName: String);
+var
+  unitText: TStringList;
+  i: Integer;
+  editView: IOTAEditView;
+  module: IOTAModule;
+begin
+  unitText := EditorAsStringList;
+  try
+    module := GetActiveProject.FindModuleInfo(AFileName).OpenModule;
+    module.Show;
+  
+    editView := (BorlandIDEServices as IOTAEditorServices).TopView;  
+    for i := 0 to Pred(unitText.Count) do
+    begin
+      if unitText[i].Trim.Equals('protected') then
+      begin
+        editView.Buffer.EditPosition.GotoLine(i + 2);
+        editView.Buffer.EditPosition.Tab(2);
+        editView.Buffer.EditPosition
+          .InsertText( Format( 'function %0:sDAO: I%1:sDAOEntity<T%0:s>;' + Chr(13),
+                          [FTabela.nome, FNamespace]));
+      end;
+    end;
+
+    module.Save(False, True);
+  finally
+    unitText.Free;
+  end;
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactoryClassVar(AFileName: String);
+var
+  unitText: TStringList;
+  i: Integer;
+  editView: IOTAEditView;
+  module: IOTAModule;
+begin
+  unitText := EditorAsStringList;
+  try
+    module := GetActiveProject.FindModuleInfo(AFileName).OpenModule;
+    module.Show;
+    
+    editView := (BorlandIDEServices as IOTAEditorServices).TopView;  
+    for i := 0 to Pred(unitText.Count) do
+    begin
+      if unitText[i].Trim.StartsWith('private') then
+      begin
+        editView.Buffer.EditPosition.GotoLine(i + 2);
+        editView.Buffer.EditPosition.Tab(2);
+        editView.Buffer.EditPosition
+          .InsertText( Format( 'F%0:sDAO: I%1:sDAOEntity<T%0:s>;' + Chr(13),
+                          [FTabela.nome, FNamespace]));
+      end;
+    end;
+
+    module.Save(False, True);
+  finally
+    unitText.Free;
+  end;
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactoryInterfaceMethod(AFileName: String);
+var
+  unitText: TStringList;
+  i: Integer;
+  editView: IOTAEditView;
+  module: IOTAModule;
+begin
+  unitText := EditorAsStringList;
+  try
+    module := GetActiveProject.FindModuleInfo(AFileName).OpenModule;
+    module.Show;
+    
+    editView := (BorlandIDEServices as IOTAEditorServices).TopView;  
+    for i := 0 to Pred(unitText.Count) do
+    begin
+      if unitText[i].Trim.StartsWith('I' + FNamespace + 'DAOFactory') then
+      begin
+        editView.Buffer.EditPosition.GotoLine(i + 3);
+        editView.Buffer.EditPosition.Tab(2);
+        editView.Buffer.EditPosition
+          .InsertText( Format( 'function %0:sDAO: I%1:sDAOEntity<T%0:s>;' + Chr(13),
+                          [FTabela.nome, FNamespace]));
+      end;
+    end;
+
+    module.Save(False, True);
+  finally
+    unitText.Free;
+  end;
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactoryMethodImplementation(AFileName: String);
+var
+  unitText: TStringList;
+  i: Integer;
+  editView: IOTAEditView;
+  module: IOTAModule;
+begin
+  unitText := EditorAsStringList;
+  try
+    module := GetActiveProject.FindModuleInfo(AFileName).OpenModule;
+    module.Show;
+  
+    editView := (BorlandIDEServices as IOTAEditorServices).TopView;  
+    for i := 0 to Pred(unitText.Count) do
+    begin
+      if unitText[i].Trim.Equals('end.') then
+      begin
+        editView.Buffer.EditPosition.GotoLine(i - 1);
+        editView.Buffer.EditPosition.Tab(2);
+        editView.Buffer.EditPosition
+          .InsertText( Format(Chr(13) + Chr(13) + 'function T%0:sDAOFactory.%1:sDAO: I%0:sDAOEntity<T%1:s>;' + Chr(13),
+                          [FNamespace, FTabela.nome]));
+
+        editView.Buffer.EditPosition.GotoLine(i + 2);
+        editView.Buffer.EditPosition.InsertText('begin' + Chr(13));
+
+        editView.Buffer.EditPosition.GotoLine(i + 3);
+        editView.Buffer.EditPosition.Tab(1);
+        editView.Buffer.EditPosition
+          .InsertText(Format( 'if not Assigned(F%0:sDAO) then', [FTabela.nome]) + Chr(13));
+
+        editView.Buffer.EditPosition.GotoLine(i + 4);
+        editView.Buffer.EditPosition.Tab(2);
+        editView.Buffer.EditPosition
+          .InsertText(Format( 'F%0:sDAO := T%1:sDAO%0:s.New(FConnection);', [FTabela.nome, FNamespace]) + Chr(13));
+
+        editView.Buffer.EditPosition.GotoLine(i + 5);
+        editView.Buffer.EditPosition.Tab(1);
+        editView.Buffer.EditPosition
+          .InsertText(Format( 'result := F%0:sDAO;', [FTabela.nome]) + Chr(13));
+
+        editView.Buffer.EditPosition.GotoLine(i + 6);
+        editView.Buffer.EditPosition.InsertText('end;');
+      end;
+    end;
+
+    module.Save(False, True);
+  finally
+    unitText.Free;
+  end;
+end;
+
+procedure TFSDModeloDAOCreator.EditUnitDAOFactoryUses(AFileName: String);
+var
+  unitText: TStringList;
+  i: Integer;
+  editView: IOTAEditView;
+  module : IOTAModule;
+begin
+  module := GetActiveProject.FindModuleInfo(AFileName).OpenModule;
+  module.Show;
+  
+  unitText := EditorAsStringList;
+  try
+    editView := (BorlandIDEServices as IOTAEditorServices).TopView;  
+    for i := 0 to Pred(unitText.Count) do
+    begin
+      if unitText[i].Trim.Equals('uses') then
+      begin
+        editView.Buffer.EditPosition.GotoLine(i + 2);
+        editView.Buffer.EditPosition.Tab(1);
+        editView.Buffer.EditPosition
+          .InsertText( FNamespace + '.DAO.' + FTabela.nome + ',' + Chr(13));
+
+        editView.Buffer.EditPosition.GotoLine(i + 2);
+        editView.Buffer.EditPosition.Tab(1);
+        editView.Buffer.EditPosition
+          .InsertText( FNamespace + '.Entities.' + FTabela.nome + ',' + Chr(13));
+      end;
+    end;
+
+    module.Save(False, True);
+  finally
+    unitText.Free;
+  end;
+end;
+
+procedure TFSDModeloDAOCreator.FormCreated(const FormEditor: IOTAFormEditor);
+begin
+end;
+
+function TFSDModeloDAOCreator.GetAncestorName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDModeloDAOCreator.GetCreatorType: string;
+begin
+  Result := sUnit;
+end;
+
+function TFSDModeloDAOCreator.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDModeloDAOCreator.GetFileSystem: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDModeloDAOCreator.GetFormName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDModeloDAOCreator.GetImplFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDModeloDAOCreator.GetIntfFileName: string;
+begin
+  result := EmptyStr;
+end;
+
+function TFSDModeloDAOCreator.GetMainForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDModeloDAOCreator.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDModeloDAOCreator.GetShowForm: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDModeloDAOCreator.GetShowSource: Boolean;
+begin
+  result := True;
+end;
+
+function TFSDModeloDAOCreator.GetUnnamed: Boolean;
+begin
+  result := False;
+end;
+
+class function TFSDModeloDAOCreator.New(Namespace: String; Tabela: TFSDModeloTabela): IOTACreator;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+function TFSDModeloDAOCreator.NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  Result := nil;
+end;
+
+function TFSDModeloDAOCreator.NewImplSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  Result := TFSDModeloDAOSourceFile.New(FNamespace, FTabela);
+end;
+
+function TFSDModeloDAOCreator.NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+begin
+  result := nil;
+end;
+
+end.

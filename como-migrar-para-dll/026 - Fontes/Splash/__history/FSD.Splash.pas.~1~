@@ -1,0 +1,20 @@
+unit FSD.Splash;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics;
+
+procedure AddSplash;
+
+implementation
+
+procedure AddSplash;
+begin
+
+end;
+
+end.

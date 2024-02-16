@@ -1,0 +1,26 @@
+unit FSD.Splash;
+
+interface
+
+uses
+  ToolsAPI,
+  Vcl.Graphics;
+
+procedure AddSplash;
+
+implementation
+
+procedure AddSplash;
+var
+  bitmap: TBitmap;
+begin
+  bitmap := TBitmap.Create;
+  try
+    SplashScreenServices
+      .AddPluginBitmap('Formação Delphi Senior', bitmap.Handle, True, 'Expirado', 'AA');
+  finally
+    bitmap.Free;
+  end;
+end;
+
+end.

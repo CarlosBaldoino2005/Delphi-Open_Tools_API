@@ -1,0 +1,86 @@
+unit FSD.Modelo.Classes;
+
+interface
+
+uses
+  Data.DB,
+  System.SysUtils,
+  System.Generics.Collections;
+
+type
+  TFSDModeloCampo = class
+  private
+    Fnome: String;
+    FdataType: TFieldType;
+  public
+    property nome: String read Fnome write Fnome;
+    property dataType: TFieldType read FdataType write FdataType;
+
+    function delphiType: String;
+  end;
+
+  TFSDModeloTabela = class
+  private
+    Fnome: String;
+    Fcampos: TObjectList<TFSDModeloCampo>;
+  public
+    property nome: String read Fnome write Fnome;
+    property campos: TObjectList<TFSDModeloCampo> read Fcampos write Fcampos;
+
+    function AddCampo(ANome: String; AdataType: TFieldType): TFSDModeloTabela;
+
+    constructor create;
+    destructor Destroy; override;
+  end;
+
+implementation
+
+{ TFSDModeloCampo }
+
+function TFSDModeloCampo.delphiType: String;
+begin
+  result := 'string';
+  case Self.dataType of
+    ftBoolean: result := 'Boolean';
+
+    ftSmallint,
+    ftInteger,
+    ftLongWord,
+    ftShortint,
+    ftWord      : result := 'Integer';
+
+    ftFloat,
+    ftCurrency,
+    ftExtended,
+    ftBCD : result := 'Double';
+
+    ftDate,
+    ftTimeStamp,
+    ftOraTimeStamp,
+    ftTime,
+    ftDateTime: result := 'TDateTime';
+  end;
+end;
+
+{ TFSDModeloTabela }
+
+function TFSDModeloTabela.AddCampo(ANome: String; AdataType: TFieldType): TFSDModeloTabela;
+begin
+  result := Self;
+  Fcampos.Add(TFSDModeloCampo.Create);
+  Fcampos.Last.nome := ANome;
+  Fcampos.Last.dataType := AdataType;
+end;
+
+constructor TFSDModeloTabela.create;
+begin
+  Fcampos := TObjectList<TFSDModeloCampo>.create;
+end;
+
+destructor TFSDModeloTabela.Destroy;
+begin
+  Fcampos.Free;
+  inherited;
+end;
+
+end.

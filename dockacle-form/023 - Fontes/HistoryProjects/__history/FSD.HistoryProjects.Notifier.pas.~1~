@@ -1,0 +1,64 @@
+unit FSD.HistoryProjects.Notifier;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  System.IniFiles,
+  System.DateUtils;
+
+type TFSDHistoryProjectsNotifier = class(TNotifierObject, IOTANotifier, IOTAIDENotifier)
+
+  protected
+    FIndex: Integer;
+
+    { This procedure is called for many various file operations within the
+      IDE }
+    procedure FileNotification(NotifyCode: TOTAFileNotification; const FileName: string; var Cancel: Boolean);
+    { This function is called immediately before the compiler is invoked.
+      Set Cancel to True to cancel the compile }
+    procedure BeforeCompile(const Project: IOTAProject; var Cancel: Boolean); overload;
+    { This procedure is called immediately following a compile.  Succeeded
+      will be true if the compile was successful }
+    procedure AfterCompile(Succeeded: Boolean); overload;
+  public
+    class function New: IOTAIDENotifier;
+    destructor Destroy; override;
+end;
+
+implementation
+
+{ TFSDHistoryProjectsNotifier }
+
+procedure TFSDHistoryProjectsNotifier.AfterCompile(Succeeded: Boolean);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsNotifier.BeforeCompile(
+  const Project: IOTAProject; var Cancel: Boolean);
+begin
+
+end;
+
+destructor TFSDHistoryProjectsNotifier.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TFSDHistoryProjectsNotifier.FileNotification(
+  NotifyCode: TOTAFileNotification; const FileName: string;
+  var Cancel: Boolean);
+begin
+
+end;
+
+class function TFSDHistoryProjectsNotifier.New: IOTAIDENotifier;
+begin
+  result := Self.Create;
+end;
+
+end.

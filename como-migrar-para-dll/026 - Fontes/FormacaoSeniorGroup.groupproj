@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F8A74CF9-EB2B-4EFC-9AF8-E42630232946}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FormacaoSeniorDeveloper.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FormacaoSeniorDeveloperDLL.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FormacaoSeniorDeveloper">
+        <MSBuild Projects="FormacaoSeniorDeveloper.dproj"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloper:Clean">
+        <MSBuild Projects="FormacaoSeniorDeveloper.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloper:Make">
+        <MSBuild Projects="FormacaoSeniorDeveloper.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDLL">
+        <MSBuild Projects="FormacaoSeniorDeveloperDLL.dproj"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDLL:Clean">
+        <MSBuild Projects="FormacaoSeniorDeveloperDLL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDLL:Make">
+        <MSBuild Projects="FormacaoSeniorDeveloperDLL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FormacaoSeniorDeveloper;FormacaoSeniorDeveloperDLL"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FormacaoSeniorDeveloper:Clean;FormacaoSeniorDeveloperDLL:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FormacaoSeniorDeveloper:Make;FormacaoSeniorDeveloperDLL:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

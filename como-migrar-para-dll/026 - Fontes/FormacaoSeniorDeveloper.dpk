@@ -1,0 +1,66 @@
+package FormacaoSeniorDeveloper;
+
+{$R *.res}
+{$R *.dres}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  designide;
+
+contains
+  FSD.HelloWorld.Wizard in 'HelloWorld\FSD.HelloWorld.Wizard.pas',
+  FSD.MainMenu.Wizard in 'MainMenu\FSD.MainMenu.Wizard.pas',
+  FSD.Register in 'FSD.Register.pas',
+  FSD.HistoryProjects.Notifier in 'HistoryProjects\FSD.HistoryProjects.Notifier.pas',
+  FSD.HistoryProjects.Forms in 'HistoryProjects\FSD.HistoryProjects.Forms.pas' {FSDHistoryProjectsForms},
+  FSD.HistoryProjects.Binding in 'HistoryProjects\FSD.HistoryProjects.Binding.pas',
+  FSD.HistoryProjects.ContextMenu in 'HistoryProjects\FSD.HistoryProjects.ContextMenu.pas',
+  FSD.NewProject.Wizard in 'NewProject\FSD.NewProject.Wizard.pas',
+  FSD.NewProject.Forms in 'NewProject\FSD.NewProject.Forms.pas' {FSDNewProjectForms},
+  FSD.NewProject.Creator in 'NewProject\FSD.NewProject.Creator.pas',
+  FSD.NewProject.SourceFile in 'NewProject\FSD.NewProject.SourceFile.pas',
+  FSD.NewProject.NewUnit.Behaviors in 'NewProject\FSD.NewProject.NewUnit.Behaviors.pas',
+  FSD.NewProject.NewUnit.Component.ConnectionInterfaces in 'NewProject\FSD.NewProject.NewUnit.Component.ConnectionInterfaces.pas',
+  FSD.NewProject.NewUnit.Component.ConnectionFiredac in 'NewProject\FSD.NewProject.NewUnit.Component.ConnectionFiredac.pas',
+  FSD.NewProject.NewUnit.ComponentInterfaces in 'NewProject\FSD.NewProject.NewUnit.ComponentInterfaces.pas',
+  FSD.NewProject.NewUnit.ComponentFactory in 'NewProject\FSD.NewProject.NewUnit.ComponentFactory.pas',
+  FSD.NewProject.NewUnit.DAOInterfaces in 'NewProject\FSD.NewProject.NewUnit.DAOInterfaces.pas',
+  FSD.NewProject.NewUnit.DAOFactory in 'NewProject\FSD.NewProject.NewUnit.DAOFactory.pas',
+  FSD.NewProject.NewUnit.DAOBase in 'NewProject\FSD.NewProject.NewUnit.DAOBase.pas',
+  FSD.NewProject.NewUnit.ModelInterfaces in 'NewProject\FSD.NewProject.NewUnit.ModelInterfaces.pas',
+  FSD.NewProject.NewUnit.Model in 'NewProject\FSD.NewProject.NewUnit.Model.pas',
+  FSD.NewProject.NewUnit.Controller in 'NewProject\FSD.NewProject.NewUnit.Controller.pas',
+  FSD.NewProject.NewFormMain.Creator in 'NewProject\FSD.NewProject.NewFormMain.Creator.pas',
+  FSD.NewProject.NewFormMain.SourceFile in 'NewProject\FSD.NewProject.NewFormMain.SourceFile.pas',
+  FSD.NewProject.NewFormCadastro.Creator in 'NewProject\FSD.NewProject.NewFormCadastro.Creator.pas',
+  FSD.NewProject.NewFormCadastro.SourceFile in 'NewProject\FSD.NewProject.NewFormCadastro.SourceFile.pas',
+  FSD.NewUnit.ToolsAPI.Creator in 'NewUnit\FSD.NewUnit.ToolsAPI.Creator.pas',
+  FSD.DockForm.Sample in 'DockForm\FSD.DockForm.Sample.pas' {FSDDockFormSample},
+  FSD.Splash in 'Splash\FSD.Splash.pas';
+
+end.

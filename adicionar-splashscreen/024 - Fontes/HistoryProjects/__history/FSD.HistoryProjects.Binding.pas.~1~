@@ -1,0 +1,15 @@
+unit FSD.HistoryProjects.Binding;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils;
+
+type TFSDHistoryProjectsBinding = class(TNotifierObject, IOTAKeyboardBinding)
+
+end;
+
+implementation
+
+end.

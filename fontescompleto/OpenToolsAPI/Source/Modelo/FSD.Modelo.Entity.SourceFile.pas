@@ -1,0 +1,161 @@
+unit FSD.Modelo.Entity.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  FSD.Modelo.Classes;
+
+type TFSDModeloEntitySourceFile = class(TNotifierObject, IOTAFile)
+
+  private
+    FNamespace: string;
+    FTabela : TFSDModeloTabela;
+
+    function WriteFields: String;
+    function WriteFieldMethods: string;
+    function WriteGetMethods: string;
+    function WriteSetMethods: string;
+
+  protected
+    function GetSource: string;
+    function GetAge: TDateTime;
+
+  public
+    constructor create(Namespace: String; Tabela: TFSDModeloTabela);
+    class function New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+end;
+
+implementation
+
+{ TFSDModeloEntitySourceFile }
+
+constructor TFSDModeloEntitySourceFile.create(Namespace: String; Tabela: TFSDModeloTabela);
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+end;
+
+function TFSDModeloEntitySourceFile.GetAge: TDateTime;
+begin
+  result := -1;
+end;
+
+function TFSDModeloEntitySourceFile.WriteFieldMethods: string;
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(FTabela.campos.Count) do
+  begin
+    result := result +
+      '    function %0:s(Value: %1:s): T%2:s; overload;' + sLineBreak +
+      '    function %0:s: %1:s; overload;' + sLineBreak;
+
+    result := Format(result,
+                [FTabela.campos[i].nome, FTabela.campos[i].delphiType, FTabela.nome]);
+  end;
+end;
+
+function TFSDModeloEntitySourceFile.WriteFields: String;
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(FTabela.campos.Count) do
+  begin
+    result := result + Format( '    F%0:s: %1:s;' + sLineBreak,
+                          [FTabela.campos[i].nome, FTabela.campos[i].delphiType]);
+  end;
+end;
+
+function TFSDModeloEntitySourceFile.WriteGetMethods: string;
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(FTabela.campos.Count) do
+  begin
+    Result := result + sLineBreak +
+      'function T%0:s.%1:s: %2:s;' + sLineBreak +
+      'begin' + sLineBreak +
+      '  result := F%1:s;' + sLineBreak +
+      'end;' + sLineBreak;
+
+    result := Format(result,
+               [FTabela.nome, FTabela.campos[i].nome, FTabela.campos[i].delphiType]);
+  end;
+end;
+
+function TFSDModeloEntitySourceFile.WriteSetMethods: string;
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(FTabela.campos.Count) do
+  begin
+    Result := result + sLineBreak +
+      'function T%0:s.%1:s(Value: %2:s): T%0:s;' + sLineBreak +
+      'begin' + sLineBreak +
+      '  result := Self;' + sLineBreak +
+      '  F%1:s := Value;' + sLineBreak +
+      'end;' + sLineBreak;
+
+    result := Format(result,
+               [FTabela.nome, FTabela.campos[i].nome, FTabela.campos[i].delphiType]);
+  end;
+end;
+
+function TFSDModeloEntitySourceFile.GetSource: string;
+begin
+  result :=
+    'unit %0:s.Entities.%1:s;' + sLineBreak +
+    '' + sLineBreak +
+    'interface' + sLineBreak +
+    '' + sLineBreak +
+    'uses' + sLineBreak +
+    '  %0:s.DAO.Interfaces;' + sLineBreak +
+    '' + sLineBreak +
+    'type T%1:s = class' + sLineBreak +
+    '' + sLineBreak +
+    '  private' + sLineBreak +
+    '    [Weak]' + sLineBreak +
+    '    FParent: I%0:sDAOEntity<T%1:s>;' + sLineBreak +
+    '' + sLineBreak +
+    '%2:s' +
+    '' + sLineBreak +
+    '  public' + sLineBreak +
+    '%3:s' +
+    '' + sLineBreak +
+    '    function &End: I%0:sDAOEntity<T%1:s>;' + sLineBreak +
+    '' + sLineBreak +
+    '    constructor create(Parent: I%0:sDAOEntity<T%1:s>);' + sLineBreak +
+    'end;' + sLineBreak +
+    '' + sLineBreak +
+    'implementation' + sLineBreak +
+    '' + sLineBreak +
+    'function T%1:s.&End: I%0:sDAOEntity<T%1:s>;' + sLineBreak +
+    'begin' + sLineBreak +
+    '  result := FParent;' + sLineBreak +
+    'end;' + sLineBreak +
+    '' + sLineBreak +
+    'constructor T%1:s.create(Parent: I%0:sDAOEntity<T%1:s>);' + sLineBreak +
+    'begin' + sLineBreak +
+    '  FParent := Parent' + sLineBreak +
+    'end;' + sLineBreak +
+    '%4:s' +
+    '%5:s' +
+    '' + sLineBreak +
+    'end.';
+
+  result := Format(result, [FNamespace,
+                            FTabela.nome,
+                            WriteFields,
+                            WriteFieldMethods,
+                            WriteGetMethods,
+                            WriteSetMethods]);
+end;
+
+class function TFSDModeloEntitySourceFile.New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+end.

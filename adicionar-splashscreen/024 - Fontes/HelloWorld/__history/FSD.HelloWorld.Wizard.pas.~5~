@@ -1,0 +1,44 @@
+unit FSD.HelloWorld.Wizard;
+
+interface
+
+uses
+  ToolsAPI,
+  Vcl.Dialogs;
+
+type TFSDHelloWorldWizard = class(TNotifierObject, IOTAWizard)
+
+  protected
+    function GetIDString: string;
+    function GetName: string;
+    function GetState: TWizardState;
+
+    { Launch the AddIn }
+    procedure Execute;
+end;
+
+implementation
+
+{ TFSDBasicMenuWizard }
+
+procedure TFSDHelloWorldWizard.Execute;
+begin
+  ShowMessage('Hello World');
+end;
+
+function TFSDHelloWorldWizard.GetIDString: string;
+begin
+  result := Self.ClassName;
+end;
+
+function TFSDHelloWorldWizard.GetName: string;
+begin
+  result := 'Hello World';
+end;
+
+function TFSDHelloWorldWizard.GetState: TWizardState;
+begin
+  result := [wsEnabled]
+end;
+
+end.

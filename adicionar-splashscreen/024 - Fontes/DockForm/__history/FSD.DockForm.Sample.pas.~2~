@@ -1,0 +1,34 @@
+unit FSD.DockForm.Sample;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+
+type
+  TFSDDockFormSample = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSDDockFormSample: TFSDDockFormSample;
+
+procedure ShowDockFormSample;
+
+implementation
+
+procedure ShowDockFormSample;
+begin
+  if not Assigned(FSDDockFormSample) then
+    FSDDockFormSample := TFSDDockFormSample.Create(nil);
+
+  FSDDockFormSample.ShowModal;
+end;
+
+{$R *.dfm}
+
+end.

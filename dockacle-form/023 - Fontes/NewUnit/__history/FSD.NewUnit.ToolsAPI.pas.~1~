@@ -1,0 +1,51 @@
+unit FSD.NewUnit.ToolsAPI;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewUnitToolsAPI = class(TNotifierObject, IOTACreator,
+                                                  IOTAModuleCreator)
+
+  protected
+    function GetCreatorType: string;
+    function GetExisting: Boolean;
+    function GetFileSystem: string;
+    function GetOwner: IOTAModule;
+    function GetUnnamed: Boolean;
+
+end;
+
+implementation
+
+{ TFSDNewUnitToolsAPI }
+
+function TFSDNewUnitToolsAPI.GetCreatorType: string;
+begin
+  result := sUnit;
+end;
+
+function TFSDNewUnitToolsAPI.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewUnitToolsAPI.GetFileSystem: string;
+begin
+  result := '';
+end;
+
+function TFSDNewUnitToolsAPI.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDNewUnitToolsAPI.GetUnnamed: Boolean;
+begin
+  result := True;
+end;
+
+end.

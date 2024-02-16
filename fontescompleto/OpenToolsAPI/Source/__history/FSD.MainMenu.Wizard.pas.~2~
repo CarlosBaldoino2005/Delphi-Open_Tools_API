@@ -1,0 +1,65 @@
+unit FSD.MainMenu.Wizard;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Menus;
+
+type TFSDMainMenuWizard = class(TNotifierObject, IOTAWizard)
+
+  protected
+    procedure CreateMenu;
+
+    function GetIDString: string;
+    function GetName: string;
+    function GetState: TWizardState;
+
+    procedure Execute;
+
+  public
+    class function New: IOTAWizard;
+    constructor create;
+end;
+
+implementation
+
+{ TFSDMainMenuWizard }
+
+constructor TFSDMainMenuWizard.create;
+begin
+  CreateMenu;
+end;
+
+procedure TFSDMainMenuWizard.CreateMenu;
+begin
+
+end;
+
+procedure TFSDMainMenuWizard.Execute;
+begin
+end;
+
+function TFSDMainMenuWizard.GetIDString: string;
+begin
+  result := Self.ClassName;
+end;
+
+function TFSDMainMenuWizard.GetName: string;
+begin
+  result :=
+end;
+
+function TFSDMainMenuWizard.GetState: TWizardState;
+begin
+  result := [wsEnabled];
+end;
+
+class function TFSDMainMenuWizard.New: IOTAWizard;
+begin
+  result := Self.create;
+end;
+
+end.

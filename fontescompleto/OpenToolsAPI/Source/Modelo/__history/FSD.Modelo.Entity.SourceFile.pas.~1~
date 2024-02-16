@@ -1,0 +1,50 @@
+unit FSD.Modelo.Entity.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  FSD.Modelo.Classes;
+
+type TFSDNewModeloEntitySourceFile = class(TNotifierObject, IOTAFile)
+
+  private
+    FNamespace: string;
+    FTabela : TFSDModeloTabela;
+
+  protected
+    function GetSource: string;
+    function GetAge: TDateTime;
+
+  public
+    constructor create(Namespace: String; Tabela: TFSDModeloTabela);
+    class function New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+end;
+
+implementation
+
+{ TFSDNewModeloEntitySourceFile }
+
+constructor TFSDNewModeloEntitySourceFile.create(Namespace: String; Tabela: TFSDModeloTabela);
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+end;
+
+function TFSDNewModeloEntitySourceFile.GetAge: TDateTime;
+begin
+  result := -1;
+end;
+
+function TFSDNewModeloEntitySourceFile.GetSource: string;
+begin
+
+end;
+
+class function TFSDNewModeloEntitySourceFile.New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+end.

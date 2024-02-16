@@ -1,0 +1,203 @@
+unit FSD.HistoryProjects.ContextMenu;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type
+  TFSDHistoryProjectsContextMenu = class(TNotifierObject, IOTAProjectMenuItemCreatorNotifier)
+  protected
+    procedure AddMenu(const Project: IOTAProject;
+                      const IdentList: TStrings;
+                      const ProjectManagerMenuList: IInterfaceList;
+                            IsMultiSelect: Boolean);
+  public
+    class function New: IOTAProjectMenuItemCreatorNotifier;
+  end;
+
+  TFSDHistoryProjectsItemMenu = class(TNotifierObject, IOTALocalMenu, IOTAProjectManagerMenu)
+  private
+
+  protected
+    function GetCaption: string;
+    function GetChecked: Boolean;
+    function GetEnabled: Boolean;
+    function GetHelpContext: Integer;
+    function GetName: string;
+    function GetParent: string;
+    function GetPosition: Integer;
+    function GetVerb: string;
+    procedure SetCaption(const Value: string);
+    procedure SetChecked(Value: Boolean);
+    procedure SetEnabled(Value: Boolean);
+    procedure SetHelpContext(Value: Integer);
+    procedure SetName(const Value: string);
+    procedure SetParent(const Value: string);
+    procedure SetPosition(Value: Integer);
+    procedure SetVerb(const Value: string);
+    function GetIsMultiSelectable: Boolean;
+    procedure SetIsMultiSelectable(Value: Boolean);
+    procedure Execute(const MenuContextList: IInterfaceList); overload;
+    function PreExecute(const MenuContextList: IInterfaceList): Boolean;
+    function PostExecute(const MenuContextList: IInterfaceList): Boolean;
+
+  public
+    class function New: IOTAProjectManagerMenu;
+  end;
+
+var
+  IndexContextMenu: Integer = -1;
+
+procedure RegisterHistoryProjectsContextMenu;
+
+implementation
+
+uses
+  FSD.HistoryProjects.Forms;
+
+procedure RegisterHistoryProjectsContextMenu;
+begin
+  IndexContextMenu := (BorlandIDEServices as IOTAProjectManager)
+    .AddMenuItemCreatorNotifier(TFSDHistoryProjectsContextMenu.New);
+end;
+
+{ TFSDHistoryProjectsContextMenu }
+
+procedure TFSDHistoryProjectsContextMenu.AddMenu(const Project: IOTAProject;
+                                                 const IdentList: TStrings;
+                                                 const ProjectManagerMenuList: IInterfaceList;
+                                                       IsMultiSelect: Boolean);
+begin
+  if (IdentList.IndexOf(sProjectGroupContainer) < 0) then
+    Exit;
+
+  ProjectManagerMenuList.Add(TFSDHistoryProjectsItemMenu.New);
+end;
+
+class function TFSDHistoryProjectsContextMenu.New: IOTAProjectMenuItemCreatorNotifier;
+begin
+  result := Self.Create;
+end;
+
+{ TFSDHistoryProjectsItemMenu }
+
+procedure TFSDHistoryProjectsItemMenu.Execute(const MenuContextList: IInterfaceList);
+begin
+  ShowHistoryProjects;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetCaption: string;
+begin
+  result := 'History Projects';
+end;
+
+function TFSDHistoryProjectsItemMenu.GetChecked: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetEnabled: Boolean;
+begin
+  Result := True;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetHelpContext: Integer;
+begin
+  result := 0;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetIsMultiSelectable: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetName: string;
+begin
+  result := 'imHistoryProjects';
+end;
+
+function TFSDHistoryProjectsItemMenu.GetParent: string;
+begin
+  result := '';
+end;
+
+function TFSDHistoryProjectsItemMenu.GetPosition: Integer;
+begin
+  result := pmmpAddExistingTarget + 100;;
+end;
+
+function TFSDHistoryProjectsItemMenu.GetVerb: string;
+begin
+  Result := 'HistoryProjects';
+end;
+
+class function TFSDHistoryProjectsItemMenu.New: IOTAProjectManagerMenu;
+begin
+  result := Self.create;
+end;
+
+function TFSDHistoryProjectsItemMenu.PostExecute(const MenuContextList: IInterfaceList): Boolean;
+begin
+  result := True;
+end;
+
+function TFSDHistoryProjectsItemMenu.PreExecute(const MenuContextList: IInterfaceList): Boolean;
+begin
+  result := True;
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetCaption(const Value: string);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetChecked(Value: Boolean);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetEnabled(Value: Boolean);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetHelpContext(Value: Integer);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetIsMultiSelectable(Value: Boolean);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetName(const Value: string);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetParent(const Value: string);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetPosition(Value: Integer);
+begin
+
+end;
+
+procedure TFSDHistoryProjectsItemMenu.SetVerb(const Value: string);
+begin
+
+end;
+
+initialization
+
+finalization
+  (BorlandIDEServices as IOTAProjectManager)
+    .RemoveMenuItemCreatorNotifier(IndexContextMenu);
+
+end.

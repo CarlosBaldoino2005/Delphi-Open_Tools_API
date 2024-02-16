@@ -1,0 +1,57 @@
+unit FSD.NewProject.NewUnit.Component.ConnectionInterfaces;
+
+interface
+
+uses
+  ToolsAPI,
+  Vcl.Dialogs,
+  DCCStrs,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitComponentConnectionInterfaces(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitComponentConnectionInterfaces(ProjectPath, Namespace: String);
+var
+  unitName: String;
+  unitPath: string;
+  unitFileName: string;
+begin
+  unitPath  := ProjectPath + '\Source\Model\Components\Connection\';
+  unitName  := Namespace + '.Components.Connection.Interfaces';
+  unitFileName := unitPath + unitName + '.pas';
+
+  ForceDirectories(unitPath);
+
+  with TStringList.Create do
+  try
+    Add('unit %0:s.Components.Connection.Interfaces;');
+    Add('');
+    Add('interface');
+    Add('');
+    Add('uses');
+    Add('  Data.DB, ');
+    Add('  System.SysUtils,');
+    Add('  System.Classes;');
+    Add('');
+    Add('type');
+    Add('  I%0:sComponentsConnection = interface');
+    Add('    [''%1:s'']');
+    Add('  end;');
+    Add('');
+    Add('implementation');
+    Add('');
+    Add('end.');
+
+    Text := Format(Text, [Namespace, TGuid.NewGuid.ToString]);
+    SaveToFile(unitFileName);
+
+    GetActiveProject.AddFile(unitFileName, True);
+  finally
+    Free;
+  end;
+end;
+
+end.

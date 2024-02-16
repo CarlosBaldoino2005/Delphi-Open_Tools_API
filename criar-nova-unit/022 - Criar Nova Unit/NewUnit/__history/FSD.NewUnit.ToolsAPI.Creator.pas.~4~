@@ -1,0 +1,64 @@
+unit FSD.NewUnit.ToolsAPI.Creator;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+type TFSDNewUnitToolsAPI = class(TNotifierObject, IOTACreator,
+                                                  IOTAModuleCreator)
+
+  protected
+    function GetCreatorType: string;
+    { Return False if this is a new module }
+    function GetExisting: Boolean;
+    { Return the File system IDString that this module uses for reading/writing }
+    function GetFileSystem: string;
+    { Return the Owning module, if one exists (for a project module, this would
+      be a project; for a project this is a project group) }
+    function GetOwner: IOTAModule;
+    { Return true, if this item is to be marked as un-named.  This will force the
+      save as dialog to appear the first time the user saves. }
+    function GetUnnamed: Boolean;
+
+  public
+    class function NEw: IOTACreator;
+end;
+
+implementation
+
+{ TFSDNewUnitToolsAPI }
+
+function TFSDNewUnitToolsAPI.GetCreatorType: string;
+begin
+  result := sUnit;
+end;
+
+function TFSDNewUnitToolsAPI.GetExisting: Boolean;
+begin
+  result := False;
+end;
+
+function TFSDNewUnitToolsAPI.GetFileSystem: string;
+begin
+  result := '';
+end;
+
+function TFSDNewUnitToolsAPI.GetOwner: IOTAModule;
+begin
+  result := GetActiveProject;
+end;
+
+function TFSDNewUnitToolsAPI.GetUnnamed: Boolean;
+begin
+  result := True;
+end;
+
+class function TFSDNewUnitToolsAPI.NEw: IOTACreator;
+begin
+  result := Self.Create;
+end;
+
+end.

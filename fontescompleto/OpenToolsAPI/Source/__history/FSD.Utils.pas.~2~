@@ -1,0 +1,22 @@
+unit FSD.Utils;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  ToolsAPI;
+
+function UnitEditor(FileName: String): IOTASourceEditor;
+
+implementation
+
+function UnitEditor(FileName: String): IOTASourceEditor;
+var
+  module: IOTAModule;
+begin
+  module := (BorlandIDEServices as IOTAModuleServices).FindModule(FileName);
+  module.QueryInterface(IOTASourceEditor, result);
+end;
+
+end.

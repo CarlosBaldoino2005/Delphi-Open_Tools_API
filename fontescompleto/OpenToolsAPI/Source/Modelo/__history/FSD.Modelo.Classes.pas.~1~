@@ -1,0 +1,51 @@
+unit FSD.Modelo.Classes;
+
+interface
+
+uses
+  Data.DB,
+  System.SysUtils,
+  System.Generics.Collections;
+
+type
+  TFSDModeloCampo = class
+  private
+    Fnome: String;
+    FdataType: TFieldType;
+  public
+    property nome: String read Fnome write Fnome;
+    property dataType: TFieldType read FdataType write FdataType;
+
+    function delphiType: String;
+  end;
+
+implementation
+
+{ TFSDModeloCampo }
+
+function TFSDModeloCampo.delphiType: String;
+begin
+  result := 'string';
+  case Self.dataType of
+    ftBoolean: result := 'Boolean';
+
+    ftSmallint,
+    ftInteger,
+    ftLongWord,
+    ftShortint,
+    ftWord      : result := 'Integer';
+
+    ftFloat,
+    ftCurrency,
+    ftExtended,
+    ftBCD : result := 'Double';
+
+    ftDate,
+    ftTimeStamp,
+    ftOraTimeStamp,
+    ftTime,
+    ftDateTime: result := 'TDateTime';
+  end;
+end;
+
+end.

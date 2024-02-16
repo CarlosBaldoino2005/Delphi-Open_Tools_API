@@ -1,0 +1,50 @@
+unit FSD.Utils;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  ToolsAPI;
+
+function UnitEditor(FileName: String): IOTASourceEditor;
+function EditorAsString(FileName: String): string;
+
+implementation
+
+function EditorAsString(FileName: String): string;
+Const
+  iBufferSize : Integer = 1024;
+var
+  editor: IOTASourceEditor;
+  Reader : IOTAEditReader;
+  iRead : Integer;
+  iPosition : Integer;
+  strBuffer : AnsiString;
+begin
+  editor := UnitEditor(FileName);
+  Result := '';
+  Reader := editor.CreateReader;
+  Try
+    iPosition := 0;
+    Repeat
+      SetLength(strBuffer, iBufferSize);
+      iRead := Reader.GetText(iPosition, PAnsiChar(strBuffer), iBufferSize);
+      SetLength(strBuffer, iRead);
+      Result := Result + String(strBuffer);
+      Inc(iPosition, iRead);
+    Until iRead < iBufferSize;
+  Finally
+    Reader := Nil;
+  End;
+end;
+
+function UnitEditor(FileName: String): IOTASourceEditor;
+var
+  module: IOTAModule;
+begin
+  module := (BorlandIDEServices as IOTAModuleServices).FindModule(FileName);
+  module.QueryInterface(IOTASourceEditor, result);
+end;
+
+end.

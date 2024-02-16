@@ -1,0 +1,38 @@
+unit FSD.NewProject.NewUnit.Model;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  System.Classes;
+
+procedure CreateUnitModel(ProjectPath, Namespace: String);
+
+implementation
+
+procedure CreateUnitModel(ProjectPath, Namespace: String);
+var
+  unitName: String;
+  unitPath: string;
+  unitFileName: string;
+begin
+  unitPath  := ProjectPath + '\Source\Model\';
+  unitName  := Namespace + '.Model';
+  unitFileName := unitPath + unitName + '.pas';
+
+  ForceDirectories(unitPath);
+
+  with TStringList.Create do
+  try
+
+    Text := Format(Text, [Namespace]);
+    SaveToFile(unitFileName);
+
+    GetActiveProject.AddFile(unitFileName, True);
+  finally
+    Free;
+  end;
+end;
+
+end.

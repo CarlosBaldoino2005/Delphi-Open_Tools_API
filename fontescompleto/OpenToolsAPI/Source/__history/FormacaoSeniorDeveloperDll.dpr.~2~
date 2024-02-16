@@ -1,0 +1,22 @@
+library FormacaoSeniorDeveloperDll;
+
+uses
+  System.SysUtils,
+  System.Classes,
+  FSD.BasicMenu.Wizard in 'BasicMenu\FSD.BasicMenu.Wizard.pas',
+  FSD.HistoryProjects.Forms in 'HistoryProjects\FSD.HistoryProjects.Forms.pas' {FSDHistoryProjectsForms},
+  FSD.HistoryProjects.Notifier in 'HistoryProjects\FSD.HistoryProjects.Notifier.pas',
+  FSD.MainMenu.Wizard in 'MainMenu\FSD.MainMenu.Wizard.pas',
+  FSD.Modelo.Classes in 'Modelo\FSD.Modelo.Classes.pas',
+  FSD.Modelo.DAO.Creator in 'Modelo\FSD.Modelo.DAO.Creator.pas',
+  FSD.Modelo.DAO.SourceFile in 'Modelo\FSD.Modelo.DAO.SourceFile.pas',
+  FSD.Modelo.Entity.Creator in 'Modelo\FSD.Modelo.Entity.Creator.pas',
+  FSD.Modelo.Entity.SourceFile in 'Modelo\FSD.Modelo.Entity.SourceFile.pas',
+  FSD.Modelo.FormCadastro.Creator in 'Modelo\FSD.Modelo.FormCadastro.Creator.pas',
+  FSD.Modelo.FormCadastro.SourceFile in 'Modelo\FSD.Modelo.FormCadastro.SourceFile.pas',
+  FSD.Modelo.Forms in 'Modelo\FSD.Modelo.Forms.pas' {FSDGeradorModeloForms};
+
+{$R *.res}
+
+begin
+end.

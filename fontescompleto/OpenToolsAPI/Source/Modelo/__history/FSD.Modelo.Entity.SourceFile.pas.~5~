@@ -1,0 +1,103 @@
+﻿unit FSD.Modelo.Entity.SourceFile;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils,
+  FSD.Modelo.Classes;
+
+type TFSDModeloEntitySourceFile = class(TNotifierObject, IOTAFile)
+
+  private
+    FNamespace: string;
+    FTabela : TFSDModeloTabela;
+
+    function GetFields: String;
+
+  protected
+    function GetSource: string;
+    function GetAge: TDateTime;
+
+  public
+    constructor create(Namespace: String; Tabela: TFSDModeloTabela);
+    class function New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+end;
+
+implementation
+
+{ TFSDModeloEntitySourceFile }
+
+constructor TFSDModeloEntitySourceFile.create(Namespace: String; Tabela: TFSDModeloTabela);
+begin
+  FNamespace := Namespace;
+  FTabela := Tabela;
+end;
+
+function TFSDModeloEntitySourceFile.GetAge: TDateTime;
+begin
+  result := -1;
+end;
+
+function TFSDModeloEntitySourceFile.GetFields: String;
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(FTabela.campos.Count) do
+  begin
+    result := result + Format( '    F%0:s: %1:s;',
+                          [FTabela.campos[i].nome, FTabela.campos[i].delphiType]);
+  end;
+end;
+
+function TFSDModeloEntitySourceFile.GetSource: string;
+begin
+  result :=
+    'unit %0:s.Entities.%1:s;' + sLineBreak +
+    '' + sLineBreak +
+    'interface' + sLineBreak +
+    '' + sLineBreak +
+    'uses' + sLineBreak +
+    '  %0:s.DAO.Interfaces;' + sLineBreak +
+    '' + sLineBreak +
+    'type T%1:s = class' + sLineBreak +
+    '' + sLineBreak +
+    '  private' + sLineBreak +
+    '    [Weak]' + sLineBreak +
+    '    FParent: I%0:sDAOEntity<T%1:s>;' + sLineBreak +
+    '' + sLineBreak +
+    '%2:s' + sLineBreak +
+    '' + sLineBreak +
+    '  public' + sLineBreak +
+    '%3:s' + sLineBreak +
+    '' + sLineBreak +
+    '    function &End: I%:0:sDAOEntity<T%1:s>;' + sLineBreak +
+    '' + sLineBreak +
+    '    constructor create(Parent: I%0:sDAOEntity<T%1:s>);' + sLineBreak +
+    'end;' + sLineBreak +
+    '' + sLineBreak +
+    'implementation' + sLineBreak +
+    '' + sLineBreak +
+    'function T%1:s.&End: I%:0:sDAOEntity<T%1:s>;' + sLineBreak +
+    'begin' + sLineBreak +
+    '  result := FParent;' + sLineBreak +
+    'end;' + sLineBreak +
+    '' + sLineBreak +
+    'constructor T%1:s.create(Parent: I%0:sDAOEntity<T%1:s>);' + sLineBreak +
+    'begin' + sLineBreak +
+    '  FParent := Parent' + sLineBreak +
+    'end;' + sLineBreak +
+    '' + sLineBreak +
+    '%4:s' + sLineBreak +
+    '' + sLineBreak +
+    '%5:s' + sLineBreak +
+    '' + sLineBreak +
+    'end.';
+end;
+
+class function TFSDModeloEntitySourceFile.New(Namespace: String; Tabela: TFSDModeloTabela): IOTAFile;
+begin
+  result := Self.create(Namespace, Tabela);
+end;
+
+end.

@@ -1,0 +1,51 @@
+unit FSD.HistoryProjects.Binding;
+
+interface
+
+uses
+  ToolsAPI,
+  System.SysUtils;
+
+type TFSDHistoryProjectsBinding = class(TNotifierObject, IOTAKeyboardBinding)
+
+  protected
+    function GetBindingType: TBindingType;
+    function GetDisplayName: string;
+    function GetName: string;
+    procedure BindKeyboard(const BindingServices: IOTAKeyBindingServices);
+
+  public
+    class function New: IOTAKeyboardBinding;
+end;
+
+implementation
+
+{ TFSDHistoryProjectsBinding }
+
+procedure TFSDHistoryProjectsBinding.BindKeyboard(
+  const BindingServices: IOTAKeyBindingServices);
+begin
+
+end;
+
+function TFSDHistoryProjectsBinding.GetBindingType: TBindingType;
+begin
+
+end;
+
+function TFSDHistoryProjectsBinding.GetDisplayName: string;
+begin
+
+end;
+
+function TFSDHistoryProjectsBinding.GetName: string;
+begin
+
+end;
+
+class function TFSDHistoryProjectsBinding.New: IOTAKeyboardBinding;
+begin
+
+end;
+
+end.

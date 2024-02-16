@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{22FBE63C-3679-4887-85CA-0844347054C1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FormacaoSeniorDeveloperPkg.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FormacaoSeniorDeveloperDll.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FormacaoSeniorDeveloperPkg">
+        <MSBuild Projects="FormacaoSeniorDeveloperPkg.dproj"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperPkg:Clean">
+        <MSBuild Projects="FormacaoSeniorDeveloperPkg.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperPkg:Make">
+        <MSBuild Projects="FormacaoSeniorDeveloperPkg.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDll">
+        <MSBuild Projects="FormacaoSeniorDeveloperDll.dproj"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDll:Clean">
+        <MSBuild Projects="FormacaoSeniorDeveloperDll.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FormacaoSeniorDeveloperDll:Make">
+        <MSBuild Projects="FormacaoSeniorDeveloperDll.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FormacaoSeniorDeveloperPkg;FormacaoSeniorDeveloperDll"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FormacaoSeniorDeveloperPkg:Clean;FormacaoSeniorDeveloperDll:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FormacaoSeniorDeveloperPkg:Make;FormacaoSeniorDeveloperDll:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
